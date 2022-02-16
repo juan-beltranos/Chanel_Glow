@@ -1,0 +1,19 @@
+{
+    "name": "developer/app-salon_php_mvc_js_sass",
+    "description": "Proyecto API REST",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\" : "./",
+            "Controllers\\" : "./controllers",
+            "Model\\" : "./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sebastian Beltran",
+            "email": "sebastianbeltran341@gmail.com"
+        }
+    ],
+    "require": {}
+}
