@@ -2,11 +2,17 @@
 
 require_once __DIR__ . '/../includes/app.php';
 
+use Controllers\loginControllers;
 use Controllers\serviciosControllers;
 use MVC\Router;
 
 $router = new Router();
 
+
+// Usuarios
+$router->post('/api/usuarios', [loginControllers::class,'postUsuarios']);
+$router->post('/api/login', [loginControllers::class,'login']);
+$router->post('/api/logout', [loginControllers::class,'logout']);
 
 // Servicios
 $router->get('/api/servicios', [serviciosControllers::class, 'getServicios']);
