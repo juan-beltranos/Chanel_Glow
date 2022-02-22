@@ -12,7 +12,7 @@ class loginControllers
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = new Login($_POST);
-            
+
             $usuario->validarLogin();
 
             // Verificar quel el usuario exista
@@ -54,13 +54,15 @@ class loginControllers
         }
     }
 
-    public static function logout() {
+    public static function logout()
+    {
         session_destroy();
         $_SESSION = [];
         $respuesta = [
             'tipo' => 'exito',
             'mensaje' => 'Cierre de sesion exitoso'
         ];
+        http_response_code(200);
         echo json_encode($respuesta);
         return;
     }
