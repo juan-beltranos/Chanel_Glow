@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Citas;
+use Model\CitaServicio;
 use Model\Login;
 
 class citaControllers
@@ -48,7 +49,6 @@ class citaControllers
 
             // Validar si existe ese usuario por ID
             $usuarioId = Login::where('id', $citas->usuarioId);
-
             if (!$usuarioId) {
                 http_response_code(400);
                 $respuesta = [
@@ -60,15 +60,32 @@ class citaControllers
             }
 
             // Crear e insertar la cita en la BD
-            $citas->crear();
+            $save =  $citas->crear();
+            $id = $save['id'];
 
-            // Respuesta del servidor
-            http_response_code(200);
-            $respuesta = [
-                'tipo' => 'exito',
-                'mensaje' => 'Cita Creada Correctamente',
+            //   Almacena los servicios con el Id de la cita
+            $idServicios = explode(",", $_POST['servicios']);
+            foreach ($idServicios as $idServicio) {
+                $args = [
+                    'citaId' => $id,
+                    'servicioId' => $idServicio
+                ];
+                $citaServicio = new CitaServicio($args);
+                $citaServicio->guardar();
+            }
+
+            // Almacena la cita y el servicio
+            $resultado = [
+                'cita' =>  $citas,
+                'servicios' => $idServicios
             ];
-            echo json_encode($respuesta);
+            if ($resultado) {
+                $respuesta = [
+                    'tipo' => 'exito',
+                    'mensaje' => 'Cita creada correctamente'
+                ];
+                echo json_encode(['respuesta' => $respuesta]);
+            }
         }
     }
 
@@ -110,6 +127,7 @@ class citaControllers
             $servicio = Citas::where('id', $_GET['id']);
 
             if (!$servicio) {
+                http_response_code(400);
                 $respuesta = [
                     'tipo' => 'error',
                     'mensaje' => 'Esa cita no existe'
@@ -123,7 +141,7 @@ class citaControllers
 
             $resultado = $servicioDelete->eliminar();
 
-
+            http_response_code(200);
             $resultado = [
                 'resultado' => $resultado,
                 'mensaje' => 'Eliminado Correctamente',
