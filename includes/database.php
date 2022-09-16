@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost', 'root', 'root', 'barberia');
+$db = mysqli_connect('localhost', 'root', '', 'barberia_app');
 mysqli_set_charset($db, 'utf8');
 
 if (!$db) {

@@ -1,7 +1,6 @@
 {
-    "name": "developer/app-salon_php_mvc_js_sass",
-    "description": "Proyecto API REST",
-    "type": "project",
+    "name": "developer/api-barberia",
+    "description": "Api barberia",
     "autoload": {
         "psr-4": {
             "MVC\\" : "./",
@@ -11,7 +10,7 @@
     },
     "authors": [
         {
-            "name": "Sebastian Beltran",
+            "name": "juan-beltranos",
             "email": "sebastianbeltran341@gmail.com"
         }
     ],

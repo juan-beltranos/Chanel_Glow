@@ -3,12 +3,11 @@
 namespace Controllers;
 
 use Model\Login;
-use MVC\Router;
 
 class loginControllers
 {
 
-    public static function login(Router $router)
+    public static function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = new Login($_POST);
@@ -27,10 +26,11 @@ class loginControllers
                 return;
             } else {
                 // El Usuario existe
-                if (password_verify($_POST['password'], $usuario->password)) {
+                if (password_verify($_POST['contraseña'], $usuario->contraseña)) {
 
                     // Iniciar la sesión
                     session_start();
+                    //session_destroy();
                     $_SESSION['id'] = $usuario->id;
                     $_SESSION['nombre'] = $usuario->nombre;
                     $_SESSION['email'] = $usuario->email;
@@ -38,8 +38,9 @@ class loginControllers
 
                     // Redireccionar
                     $respuesta = [
-                        'tipo' => 'exito',
-                        'mensaje' => 'Login exitoso'
+                        'login' => true,
+                        'user' =>  $_SESSION['nombre'],
+                        'id_user' =>  $_SESSION['id']
                     ];
                     echo json_encode($respuesta);
                 } else {
@@ -48,6 +49,7 @@ class loginControllers
                         'tipo' => 'error',
                         'mensaje' => 'Password incorrecto'
                     ];
+                    http_response_code(200);
                     echo json_encode($respuesta);
                 }
             }
@@ -67,13 +69,14 @@ class loginControllers
         return;
     }
 
-    public static function postUsuarios(Router $router)
+    public static function postUsuarios()
     {
 
         $usuario = new Login;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario->sincronizar($_POST);
+
             // Validar campos
             $usuario->validarNuevaCuenta();
 
@@ -98,6 +101,7 @@ class loginControllers
                 $resultado =  $usuario->crear();
 
                 if ($resultado) {
+                    http_response_code(200);
                     $respuesta = [
                         'tipo' => 'exito',
                         'mensaje' => 'El usuario se registro correctamente'

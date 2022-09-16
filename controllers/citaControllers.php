@@ -8,6 +8,7 @@ use Model\Login;
 
 class citaControllers
 {
+    
     public static function getCitas()
     {
         $citas = Citas::all();
@@ -79,6 +80,7 @@ class citaControllers
                 'cita' =>  $citas,
                 'servicios' => $idServicios
             ];
+            
             if ($resultado) {
                 $respuesta = [
                     'tipo' => 'exito',
@@ -151,4 +153,5 @@ class citaControllers
             echo json_encode($resultado);
         }
     }
+
 }

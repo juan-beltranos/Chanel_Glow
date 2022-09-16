@@ -6,6 +6,7 @@ use Model\Servicio;
 
 class serviciosControllers
 {
+
     public static function getServicios()
     {
         $servicios = Servicio::all();
@@ -15,6 +16,8 @@ class serviciosControllers
     public static function getServiciosId()
     {
         $servicio = Servicio::where('id', $_GET['id']);
+
+        // Validar si existe el servicio
         if (!$servicio) {
             $respuesta = [
                 'tipo' => 'error',
@@ -23,6 +26,7 @@ class serviciosControllers
             echo json_encode($respuesta);
             return;
         }
+
         echo json_encode($servicio);
     }
 
@@ -33,7 +37,7 @@ class serviciosControllers
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $servicio->sincronizar($_POST);
 
-
+            // Validar campos vacios
             if (!$servicio->nombre || !$servicio->precio) {
                 $res = [
                     'tipo' => 'error',
@@ -44,20 +48,25 @@ class serviciosControllers
             }
 
             $servicio->crear();
+
             $respuesta = [
                 'tipo' => 'exito',
-                'mensaje' => 'Servicio Creado Correctamente',
+                'mensaje' => 'Servicio creado correctamente',
             ];
+
             echo json_encode($respuesta);
+
         }
     }
 
     public static function putServicio()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar que el servicio exista
-            $servicio = Servicio::where('id', $_GET['id']);
 
+            $servicio = Servicio::where('id', $_GET['id']);
+         
+
+            // Validar que el servicio exista
             if (!$servicio) {
                 $respuesta = [
                     'tipo' => 'error',
@@ -67,10 +76,12 @@ class serviciosControllers
                 return;
             }
 
+          
+
             $servicioPut = new Servicio($_POST);
             $servicioPut->id = $servicio->id;
             $resultado = $servicioPut->actualizar();
-
+         
             if ($resultado) {
                 $respuesta = [
                     'tipo' => 'exito',
@@ -89,10 +100,11 @@ class serviciosControllers
             // Validar que el servicio exista
             $servicio = Servicio::where('id', $_GET['id']);
 
+            // Validar si existe el servicio
             if (!$servicio) {
                 $respuesta = [
                     'tipo' => 'error',
-                    'mensaje' => 'Hubo un Error al actualizar la tarea'
+                    'mensaje' => 'Ese servicio no existe'
                 ];
                 echo json_encode($respuesta);
                 return;
@@ -105,7 +117,6 @@ class serviciosControllers
 
 
             $resultado = [
-                'resultado' => $resultado,
                 'mensaje' => 'Eliminado Correctamente',
                 'tipo' => 'exito'
             ];
@@ -113,4 +124,5 @@ class serviciosControllers
             echo json_encode($resultado);
         }
     }
+    
 }
