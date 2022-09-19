@@ -1,0 +1,70 @@
+/* globales */
+body {
+  background: black;
+  color: white;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+.imagen {
+  height: 15rem;
+  background-image: url("../../img/logo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+  .container-app {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 100vh;
+  }
+
+  .imagen {
+    height: auto;
+  }
+}
+
+.app {
+  width: 95%;
+  margin: 0 auto;
+}
+.boton {
+  padding: 1rem;
+}
+/* Formulario login */
+.formulario {
+  width: 100%;
+}
+
+.campo {
+  display: flex;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+.campo label {
+  flex: 0 0 10rem;
+}
+.campo input {
+  flex: 1;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+}
