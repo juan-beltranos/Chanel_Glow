@@ -97,6 +97,7 @@ class Login extends ActiveRecord
                 'mensaje' => 'El email es obligatorio'
             ];
             echo json_encode($respuesta);
+            return;
         }
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $respuesta = [
@@ -104,6 +105,7 @@ class Login extends ActiveRecord
                 'mensaje' => 'El email no es valido'
             ];
             echo json_encode($respuesta);
+            return;
         }
         if (!$this->contraseña) {
             $respuesta = [
@@ -111,6 +113,7 @@ class Login extends ActiveRecord
                 'mensaje' => 'La contraseña es obligatoria'
             ];
             echo json_encode($respuesta);
+            return;
         }
 
         return;

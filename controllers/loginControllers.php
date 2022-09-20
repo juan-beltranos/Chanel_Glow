@@ -29,7 +29,7 @@ class loginControllers
                 if (password_verify($_POST['contraseña'], $usuario->contraseña)) {
 
                     // Iniciar la sesión
-                    session_start();
+                    // session_start();
                     //session_destroy();
                     $_SESSION['id'] = $usuario->id;
                     $_SESSION['nombre'] = $usuario->nombre;
@@ -42,6 +42,7 @@ class loginControllers
                         'user' =>  $_SESSION['nombre'],
                         'id_user' =>  $_SESSION['id']
                     ];
+                    http_response_code(200);
                     echo json_encode($respuesta);
                 } else {
                     // Contraseña invalida
