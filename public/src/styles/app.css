@@ -1,4 +1,11 @@
 /* globales */
+
+:root {
+  --primary: rgb(88, 120, 226);
+  --secondary:#FFFF;
+  --dark: rgb(55, 86, 189);
+}
+
 body {
   background: black;
   color: white;
@@ -20,6 +27,9 @@ a {
 
 img {
   max-width: 100%;
+}
+.txt-cemter {
+  text-align: center;
 }
 
 .imagen {
@@ -48,7 +58,17 @@ img {
 }
 .boton {
   padding: 1rem;
+  background-color: var(--primary);
+  color: var(--secondary);
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
 }
+.boton:hover {
+  background-color: var(--dark);
+  cursor: pointer;
+}
+
 /* Formulario login */
 .formulario {
   width: 100%;

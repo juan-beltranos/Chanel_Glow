@@ -16,6 +16,13 @@ async function login(e) {
     datos.append('contraseña', contraseña);
 
 
+    if ([...datos][0][1] === "" || [...datos][1][1] === "" ) {
+        console.log('si');
+    }else{
+        console.log('no');
+    }
+
+
     try {
         // Petición hacia la api
         const respuesta = await fetch(`${api}/login`, {
@@ -25,10 +32,8 @@ async function login(e) {
 
         const resultado = await respuesta.json();
 
-        console.log(resultado);
-      
         if (resultado.login) {
-          window.location.href = "/src/pages/citas.html"
+          window.location.href = "/src/pages/citas/citas.html"
         }
 
     } catch (error) {
