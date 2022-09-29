@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -12,10 +13,53 @@
   <div class="container-app">
     <div class="imagen"></div>
     <div class="app">
-      <h1>Citas</h1>
+      <h1>Reserva tu cita</h1>
+      <h4 class="txt-cemter">Elige tus servicios y coloca tus datos</h4>
+
+      <nav class="tabs">
+        <button  type="button" data-paso="1">Servicios</button>
+        <button type="button" data-paso="2">informacion Cita</button>
+        <button type="button" data-paso="3">Resumen</button>
+      </nav>
+
+      <div class="seccion" id="paso-1">
+        <h2 class="txt-cemter">Servicios</h2>
+        <p class="txt-cemter">Elige tus servicios a continuacion</p>
+        <div class="listado-servicios" id="servicios"></div>
+      </div>
+
+      <div class="seccion" id="paso-2">
+        <h2 class="txt-cemter">tus datos y cita</h2>
+        <p class="txt-cemter">Coloca tus datos y fecha de tu cita</p>
+        <form class="formulario">
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" disabled value="Sebastian Beltran" id="nombre">
+          </div>
+          <div class="campo">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha">
+          </div>
+          <div class="campo">
+            <label for="hora">Hora</label>
+            <input type="time" id="hora">
+          </div>
+        </form>
+      </div>
+
+      <div class="seccion" id="paso-3">
+        <h2 class="txt-cemter">Resumen</h2>
+        <p class="txt-cemter">Verifica que la informacion sea correcta</p>
+      </div>
+
+      <div class="paginacion">
+        <button id="anterior" class="boton">&laquo; Anterior</button>
+        <button id="siguiente" class="boton">siguiente&raquo; </button>
+      </div>
+
     </div>
   </div>
- 
+
   <script type="module" src="./citas.js"></script>
 </body>
 

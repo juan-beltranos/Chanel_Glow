@@ -2,7 +2,7 @@
 
 :root {
   --primary: rgb(88, 120, 226);
-  --secondary:#FFFF;
+  --secondary: #FFFF;
   --dark: rgb(55, 86, 189);
 }
 
@@ -28,6 +28,7 @@ a {
 img {
   max-width: 100%;
 }
+
 .txt-cemter {
   text-align: center;
 }
@@ -55,7 +56,9 @@ img {
 .app {
   width: 95%;
   margin: 0 auto;
+
 }
+
 .boton {
   padding: 1rem;
   background-color: var(--primary);
@@ -64,6 +67,7 @@ img {
   font-size: 15px;
   text-align: center;
 }
+
 .boton:hover {
   background-color: var(--dark);
   cursor: pointer;
@@ -79,12 +83,123 @@ img {
   margin-bottom: 2rem;
   align-items: center;
 }
+
 .campo label {
   flex: 0 0 10rem;
 }
+
 .campo input {
   flex: 1;
   border: none;
+  padding: 10px;
+  border-radius: 1rem;
+}
+
+/* Formulario citas */
+.campo input:disabled {
+  background-color: lightslategrey;
+  color: var(--secondary);
+  cursor: not-allowed;
+}
+
+.seccion {
+  display: none;
+}
+
+.mostrar {
+  display: block;
+}
+
+.ocultar {
+  display: none;
+}
+
+
+/* Tabs */
+
+@media(min-width: 768px) {
+  .tabs {
+    display: flex;
+  }
+}
+
+.tabs button {
+  background-color: var(--primary);
+  border: none;
+  color: var(--secondary);
+  padding: 1rem;
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: background-color 300ms ease;
+}
+
+.tabs button:hover {
+  cursor: pointer;
+}
+
+.tabs .actual {
+  background-color: var(--secondary);
+  color: var(--primary);
+}
+
+/* Paginacion */
+.paginacion {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ocultar-paginador {
+  visibility: hidden;
+}
+
+/* Servicios */
+.servicio {
+  background-color: var(--secondary);
+  color: black;
   padding: 1rem;
   border-radius: 1rem;
+  transition-property: transform;
+  transition-duration: 300ms;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.servicio:hover {
+  transform: scale(1.1);
+}
+
+.servicio .precio-servicio {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.servicio .nombre-servicio {
+  margin: 0;
+}
+
+@media(min-width: 768px) {
+
+  .servicio {
+    background-color: var(--secondary);
+    color: black;
+    padding: 1rem;
+    border-radius: 1rem;
+    transition-property: transform;
+    transition-duration: 300ms;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .listado-servicios {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 10px;
+  }
+
 }
