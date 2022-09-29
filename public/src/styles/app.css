@@ -41,6 +41,23 @@ img {
   background-repeat: no-repeat;
 }
 
+/* Alertas */
+.alerta {
+  color: var(--secondary);
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.alerta.error {
+  background-color: rgb(184, 8, 8);
+}
+
+.alerta.exito {
+  background-color: rgb(7, 156, 19);
+}
+
 @media (min-width: 768px) {
   .container-app {
     display: grid;
@@ -183,6 +200,14 @@ img {
   margin: 0;
 }
 
+.servicio.seleccionado {
+  background-color: var(--primary);
+}
+
+.servicio.seleccionado p {
+  color: var(--secondary);
+}
+
 @media(min-width: 768px) {
 
   .servicio {
@@ -202,4 +227,20 @@ img {
     gap: 10px;
   }
 
+}
+
+/* Resumen Cita */
+
+.contenido-resumen span {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.contenido-resumen p {
+  margin-bottom: 10px;
+}
+
+.contenedor-servicios {
+  border-bottom: 1px solid gainsboro;
 }

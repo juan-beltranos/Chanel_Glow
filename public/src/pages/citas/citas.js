@@ -1,4 +1,6 @@
 import { api } from '../../api/barberAPI.js'
+import { mostrarAlerta } from '../../components/Alert.js'
+import { fechaEspañol } from '../../helpers/fechas.js'
 
 let paso = 1
 let pasoIncial = 1
@@ -21,8 +23,11 @@ function iniciarApp() {
     botonesPaginador()
     paginaSiguiente()
     paginaAnterior()
-
     getServicios()
+    nombreCliente()
+    seleccionarFecha()
+    seleccionarHora()
+    mostrarResumen()
 }
 
 function mostrarSeccion() {
@@ -70,7 +75,7 @@ function botonesPaginador() {
     } else if (paso === 3) {
         pagAnterior.classList.remove('ocultar-paginador')
         pagSiguiente.classList.add('ocultar-paginador')
-
+        mostrarResumen()
     } else {
         pagAnterior.classList.remove('ocultar-paginador')
         pagSiguiente.classList.remove('ocultar-paginador')
@@ -98,7 +103,6 @@ function paginaAnterior() {
     })
 }
 
-// API CRUD
 async function getServicios() {
 
     try {
@@ -138,9 +142,121 @@ function mostrarServicios(servicios) {
 }
 
 function seleccionarServicio(servicio) {
+    const { id } = servicio
     const { servicios } = cita
-    cita.servicios = [...servicios, servicio]
 
-    console.log(cita);
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`)
 
+    // Comprobar si un servicio ya fue agregado
+    if (servicios.some(agregado => agregado.id === id)) {
+        cita.servicios = servicios.filter(agregado => agregado.id !== id)
+        divServicio.classList.remove('seleccionado')
+    } else {
+        cita.servicios = [...servicios, servicio]
+        divServicio.classList.add('seleccionado')
+    }
+
+}
+
+function nombreCliente() {
+    cita.nombre = document.querySelector('#nombre').value
+}
+
+function seleccionarFecha() {
+
+    const inputFecha = document.querySelector('#fecha')
+    inputFecha.addEventListener('input', function (e) {
+        const dia = new Date(e.target.value).getUTCDay()
+
+        if ([0].includes(dia)) {
+            e.target.value = ''
+            mostrarAlerta('Los domingos no abrimos.', 'error', '.formulario')
+        } else {
+            cita.fecha = e.target.value
+        }
+    })
+}
+
+function seleccionarHora() {
+    const inputHora = document.querySelector('#hora')
+    inputHora.addEventListener('input', function (e) {
+        const horaCita = e.target.value
+        const hora = horaCita.split(":")[0]
+        if (hora < 9 || hora > 18) {
+            e.target.value = ''
+            mostrarAlerta('hora no valida, cerrado', 'error', '.formulario')
+        } else {
+            cita.hora = e.target.value
+        }
+    })
+}
+
+function mostrarResumen() {
+    const resumen = document.querySelector('.contenido-resumen')
+
+    // Limpia contenido de resumen
+    while (resumen.firstChild) {
+        resumen.removeChild(resumen.firstChild)
+    }
+
+    if (Object.values(cita).includes('') || cita.servicios.length === 0) {
+        return mostrarAlerta('faltan datos o servicios', 'error', '.contenido-resumen', false);
+    }
+
+    const { nombre, fecha, hora, servicios } = cita
+
+    // Header servicios resumen
+    const headerServicios = document.createElement('H2')
+    headerServicios.textContent = 'Resumen de Servicios'
+    resumen.appendChild(headerServicios)
+
+    servicios.forEach(servicio => {
+
+        const { id, precio, nombre } = servicio
+
+        const contenedorServicio = document.createElement('DIV')
+        contenedorServicio.classList.add('contenedor-servicios')
+
+        const txtServicio = document.createElement('P')
+        txtServicio.textContent = nombre
+
+        const precioServicio = document.createElement('P')
+        precioServicio.innerHTML = `<span>Precio:</span> ${precio}`
+
+        contenedorServicio.appendChild(txtServicio)
+        contenedorServicio.appendChild(precioServicio)
+
+        resumen.appendChild(contenedorServicio)
+    })
+
+    // Header servicios resumen
+    const headerCita = document.createElement('H2')
+    headerCita.textContent = 'Resumen de Cita'
+    resumen.appendChild(headerCita)
+
+    const nombreCliente = document.createElement('P')
+    nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`
+
+    const fechaCita = document.createElement('P')
+    fechaCita.innerHTML = `<span>Fecha:</span> ${fechaEspañol(fecha)}`
+
+    const horaCita = document.createElement('P')
+    horaCita.innerHTML = `<span>Hora:</span> ${hora} Horas`
+
+    // Boton reservar cita
+    const botonReservar = document.createElement('BUTTON')
+    botonReservar.classList.add('boton')
+    botonReservar.textContent = 'Reservar Cita'
+    botonReservar.onclick = reservarCita;
+
+    resumen.appendChild(nombreCliente)
+    resumen.appendChild(fechaCita)
+    resumen.appendChild(horaCita)
+    resumen.appendChild(botonReservar)
+
+}
+
+
+function reservarCita() {
+    console.log('si');
 }
