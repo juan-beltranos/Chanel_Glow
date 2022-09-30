@@ -1,6 +1,6 @@
 import { api } from '../../api/barberAPI.js'
 import { mostrarAlerta } from '../../components/Alert.js'
-import { fechaEspañol } from '../../helpers/fechas.js'
+import { fechaFormateada, deshabilitarFechasAnteriores } from '../../helpers/fechas.js'
 
 let paso = 1
 let pasoIncial = 1
@@ -26,6 +26,7 @@ function iniciarApp() {
     getServicios()
     nombreCliente()
     seleccionarFecha()
+    deshabilitarFechasAnteriores()
     seleccionarHora()
     mostrarResumen()
 }
@@ -238,7 +239,7 @@ function mostrarResumen() {
     nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`
 
     const fechaCita = document.createElement('P')
-    fechaCita.innerHTML = `<span>Fecha:</span> ${fechaEspañol(fecha)}`
+    fechaCita.innerHTML = `<span>Fecha:</span> ${fechaFormateada(fecha)}`
 
     const horaCita = document.createElement('P')
     horaCita.innerHTML = `<span>Hora:</span> ${hora} Horas`
