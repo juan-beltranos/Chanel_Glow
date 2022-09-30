@@ -29,7 +29,7 @@ img {
   max-width: 100%;
 }
 
-.txt-cemter {
+.txt-center {
   text-align: center;
 }
 
@@ -243,4 +243,23 @@ img {
 
 .contenedor-servicios {
   border-bottom: 1px solid gainsboro;
+}
+
+/* Cerrar sesion  */
+
+.barra {
+  margin-bottom: 2rem;
+}
+
+.barra .boton {
+  background-color: rgb(184, 8, 8);
+  margin: 0;
+}
+
+@media(min-width: 768px) {
+  .barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

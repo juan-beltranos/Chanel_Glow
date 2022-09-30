@@ -8,7 +8,7 @@ use Model\Login;
 
 class citaControllers
 {
-    
+
     public static function getCitas()
     {
         $citas = Citas::all();
@@ -80,11 +80,11 @@ class citaControllers
                 'cita' =>  $citas,
                 'servicios' => $idServicios
             ];
-            
+
             if ($resultado) {
                 $respuesta = [
                     'tipo' => 'exito',
-                    'mensaje' => 'Cita creada correctamente'
+                    'mensaje' => 'Cita creada correctamente',
                 ];
                 echo json_encode(['respuesta' => $respuesta]);
             }
@@ -153,5 +153,4 @@ class citaControllers
             echo json_encode($resultado);
         }
     }
-
 }

@@ -6,6 +6,7 @@ export function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     const alerta = document.createElement('DIV')
     alerta.textContent = mensaje
     alerta.classList.add('alerta')
+    alerta.style.marginTop = "20px"
     alerta.classList.add(tipo)
 
     const referencia = document.querySelector(elemento)

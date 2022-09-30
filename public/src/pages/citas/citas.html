@@ -14,7 +14,12 @@
     <div class="imagen"></div>
     <div class="app">
       <h1>Reserva tu cita</h1>
-      <h4 class="txt-cemter">Elige tus servicios y coloca tus datos</h4>
+      <h4 class="txt-center">Elige tus servicios y coloca tus datos</h4>
+
+      <div class="barra">
+        <p>Hola: <span id="nombreCliente"></span> </p>
+        <button id="cerrar-sesion" class="boton">Cerrar Sesion</button>
+      </div>
 
       <nav class="tabs">
         <button  type="button" data-paso="1">Servicios</button>
@@ -23,18 +28,18 @@
       </nav>
 
       <div class="seccion" id="paso-1">
-        <h2 class="txt-cemter">Servicios</h2>
-        <p class="txt-cemter">Elige tus servicios a continuacion</p>
+        <h2 class="txt-center">Servicios</h2>
+        <p class="txt-center">Elige tus servicios a continuacion</p>
         <div class="listado-servicios" id="servicios"></div>
       </div>
 
       <div class="seccion" id="paso-2">
-        <h2 class="txt-cemter">tus datos y cita</h2>
-        <p class="txt-cemter">Coloca tus datos y fecha de tu cita</p>
+        <h2 class="txt-center">tus datos y cita</h2>
+        <p class="txt-center">Coloca tus datos y fecha de tu cita</p>
         <form class="formulario">
           <div class="campo">
             <label for="nombre">Nombre</label>
-            <input type="text" disabled value="Sebastian Beltran" id="nombre">
+            <input type="text" disabled id="nombre">
           </div>
           <div class="campo">
             <label for="fecha">Fecha</label>
@@ -48,8 +53,8 @@
       </div>
 
       <div class="seccion contenido-resumen" id="paso-3">
-        <h2 class="txt-cemter">Resumen</h2>
-        <p class="txt-cemter">Verifica que la informacion sea correcta</p>
+        <h2 class="txt-center">Resumen</h2>
+        <p class="txt-center">Verifica que la informacion sea correcta</p>
       </div>
 
       <div class="paginacion">

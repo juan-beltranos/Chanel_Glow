@@ -1,4 +1,5 @@
 import { api } from '../api/barberAPI.js';
+import { mostrarAlerta } from '../components/Alert.js'
 
 const btnLogin = document.querySelector('#login')
 
@@ -7,21 +8,13 @@ btnLogin.addEventListener('click', login)
 
 async function login(e) {
     e.preventDefault();
-    
+
     const correo = document.querySelector('#email').value
     const contraseña = document.querySelector('#contraseña').value
     const datos = new FormData();
 
     datos.append('email', correo);
     datos.append('contraseña', contraseña);
-
-
-    if ([...datos][0][1] === "" || [...datos][1][1] === "" ) {
-        console.log('si');
-    }else{
-        console.log('no');
-    }
-
 
     try {
         // Petición hacia la api
@@ -31,9 +24,16 @@ async function login(e) {
         });
 
         const resultado = await respuesta.json();
-
+        console.log(resultado);
+        if (resultado.tipo === 'error') return mostrarAlerta(resultado.mensaje, 'error', '.formulario')
+     
         if (resultado.login) {
-          window.location.href = "/src/pages/citas/citas.html"
+            localStorage.setItem('user', `${resultado.nombre} ${resultado.apellido}`)
+            localStorage.setItem('id', resultado.id_user)
+            mostrarAlerta('Inicio de sesion exitoso', 'exito', '.formulario')
+            setTimeout(() => {
+                window.location.href = "/src/pages/citas/citas.html"
+            }, 2000);
         }
 
     } catch (error) {

@@ -33,14 +33,16 @@ class loginControllers
                     //session_destroy();
                     $_SESSION['id'] = $usuario->id;
                     $_SESSION['nombre'] = $usuario->nombre;
+                    $_SESSION['apellido'] = $usuario->apellido;
                     $_SESSION['email'] = $usuario->email;
                     $_SESSION['login'] = true;
 
                     // Redireccionar
                     $respuesta = [
                         'login' => true,
-                        'user' =>  $_SESSION['nombre'],
-                        'id_user' =>  $_SESSION['id']
+                        'nombre' => $_SESSION['nombre'],
+                        'apellido' => $_SESSION['apellido'],
+                        'id_user' => $_SESSION['id']
                     ];
                     http_response_code(200);
                     echo json_encode($respuesta);
