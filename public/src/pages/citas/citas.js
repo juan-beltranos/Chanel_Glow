@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function iniciarApp() {
     validarSesion()
-
     mostrarSeccion();
     tabs();
     botonesPaginador();

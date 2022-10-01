@@ -26,7 +26,6 @@ class adminController
 
         $citas =  AdminCita::SQL($consulta);
 
-        debuguear($citas);
-
+        echo json_encode($citas);
     }
 }

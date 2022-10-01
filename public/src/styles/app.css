@@ -263,3 +263,86 @@ img {
     align-items: center;
   }
 }
+
+
+/* Citas admin */
+.listado-citas {
+  padding: 1rem;
+}
+
+.citas {
+  list-style: none;
+  padding: 0;
+}
+
+.citas li {
+  border-top: 1px solid var(--secondary);
+}
+
+.citas p {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.citas span {
+  font-weight: 400;
+  color: var(--secondary);
+
+}
+
+.servicioCita {
+  font-weight: 400;
+}
+
+/* Servcios admin */
+.contenedor-datos {
+  text-align: center;
+}
+
+.servicio-admin {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--secondary);
+}
+
+@media(min-width: 768px) {
+  .contenedor-datos {
+    display: flex;
+  }
+
+  .servicio-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0px;
+
+  }
+}
+
+.precio-servicio {
+  margin-left: 5px;
+}
+
+.btn-editar {
+  padding: 0.5rem;
+  background-color: rgb(233, 213, 32);
+  color: var(--secondary);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-editar:hover {
+  cursor: pointer;
+}
+
+.btn-eliminar {
+  padding: 0.5rem;
+  background-color: rgb(184, 8, 8);
+  color: var(--secondary);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-eliminar:hover {
+  cursor: pointer;
+}

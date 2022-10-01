@@ -11,6 +11,9 @@ async function login(e) {
 
     const correo = document.querySelector('#email').value
     const contraseña = document.querySelector('#contraseña').value
+
+    if (correo === "" || contraseña === "") return mostrarAlerta('Correo y contraseña obligatorios', 'error', '.formulario')
+    
     const datos = new FormData();
 
     datos.append('email', correo);
@@ -24,16 +27,18 @@ async function login(e) {
         });
 
         const resultado = await respuesta.json();
-        console.log(resultado);
+
         if (resultado.tipo === 'error') return mostrarAlerta(resultado.mensaje, 'error', '.formulario')
-     
+
         if (resultado.login) {
             localStorage.setItem('user', `${resultado.nombre} ${resultado.apellido}`)
             localStorage.setItem('id', resultado.id_user)
             mostrarAlerta('Inicio de sesion exitoso', 'exito', '.formulario')
-            setTimeout(() => {
-                window.location.href = "/src/pages/citas/citas.html"
-            }, 2000);
+            if (resultado.admin === '1') {
+                setTimeout(() => {window.location.href = "/src/pages/admin/admin.html"}, 2000);
+            } else {
+                setTimeout(() => {window.location.href = "/src/pages/citas/citas.html"}, 2000);
+            }
         }
 
     } catch (error) {

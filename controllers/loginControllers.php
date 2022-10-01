@@ -42,7 +42,8 @@ class loginControllers
                         'login' => true,
                         'nombre' => $_SESSION['nombre'],
                         'apellido' => $_SESSION['apellido'],
-                        'id_user' => $_SESSION['id']
+                        'id_user' => $_SESSION['id'],
+                        'admin' =>  $usuario->admin
                     ];
                     http_response_code(200);
                     echo json_encode($respuesta);
