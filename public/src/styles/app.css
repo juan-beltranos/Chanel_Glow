@@ -23,6 +23,7 @@ h3 {
 
 a {
   text-decoration: none;
+  color: rgb(233, 213, 32);
 }
 
 img {
@@ -72,8 +73,14 @@ img {
 
 .app {
   width: 95%;
+  height: 100vh;
   margin: 0 auto;
+}
 
+@media (min-width: 768px) {
+  .app {
+    overflow-y: scroll;
+  }
 }
 
 .boton {
@@ -93,6 +100,7 @@ img {
 /* Formulario login */
 .formulario {
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .campo {
@@ -345,4 +353,31 @@ img {
 
 .btn-eliminar:hover {
   cursor: pointer;
+}
+
+
+/* Modal */
+.modal {
+  position: absolute;
+  background-color: rgb(0, 0, 0 ,0.8);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+}
+
+.modal .actualizar-servicio {
+  max-width: 50%;
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 0 auto;
+  transform: translateY(10rem);
+  transition-property: transform;
+  transition-duration: 300ms;
+}
+.opciones {
+  display: flex;
+  justify-content: space-between;
 }

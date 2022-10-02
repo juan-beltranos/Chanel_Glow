@@ -174,7 +174,7 @@ function mostrarServicios(servicios) {
         btnEditar.classList.add('btn-editar')
         btnEditar.textContent = 'Actualizar'
         btnEditar.onclick = function () {
-            actualizarServicio(servicio.id);
+            modalFormulario(servicio);
         };
 
         const btnEliminar = document.createElement('BUTTON')
@@ -265,4 +265,38 @@ async function eliminarServicio(servicioId) {
 
 async function actualizarServicio(servicioId) {
     console.log(servicioId);
+}
+
+async function modalFormulario(servicio) {
+
+    const { nombre, precio } = servicio
+
+    const modal = document.createElement('DIV')
+    modal.classList.add('modal')
+    modal.innerHTML = `
+            <form class="formulario actualizar-servicio">
+                <h2>Actualizar Servicio</h2>
+                <div class="campo">
+                    <label for="nombreServicio">Nombre</label>
+                    <input type="text" id="nombreServicio" value="${nombre}" placeholder="Nombre de tu servicio" />
+                </div>
+                <div class="campo">
+                    <label for="precioServicio">Precio</label>
+                    <input type="number" value="${precio}" id="precioServicio" placeholder="Precio de tu servicio" />
+                </div>
+                <div class="opciones">
+                    <input type="submit" value="Actualizar" class="btn-editar" id="crear-servicio" />
+                    <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="precioServicio" />
+                </div>
+            </form>
+        `
+
+    modal.addEventListener('click', function (e) {
+        e.preventDefault()
+        if (e.target.classList.contains('cerrar')) {
+            modal.remove()
+        }
+    })
+
+    document.querySelector('body').appendChild(modal)
 }

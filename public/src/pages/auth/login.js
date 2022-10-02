@@ -1,5 +1,5 @@
-import { api } from '../api/barberAPI.js';
-import { mostrarAlerta } from '../components/Alert.js'
+import { api } from '../../api/barberAPI.js';
+import { mostrarAlerta } from '../../components/Alert.js'
 
 const btnLogin = document.querySelector('#login')
 

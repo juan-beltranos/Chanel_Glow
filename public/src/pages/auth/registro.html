@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App Barber</title>
+    <link rel="stylesheet" href="/src/styles/app.css">
+</head>
+
+<body>
+    <div class="container-app">
+        <div class="imagen"></div>
+        <div class="app">
+            <h1>Registro</h1>
+            <h3>Crea una nueva cuenta</h3>
+
+            <form class="formulario">
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Tu nombre">
+                </div>
+                <div class="campo">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" name="apellido" id="apellido" placeholder="Tu apellido">
+                </div>
+                <div class="campo">
+                    <label for="telefono">Telefono</label>
+                    <input type="tel" name="telefono" id="telefono" placeholder="Tu telefono">
+                </div>
+                <div class="campo">
+                    <label for="email">Correo Electronico</label>
+                    <input type="email" name="email" id="email" placeholder="Tu correo electronico">
+                </div>
+                <div class="campo">
+                    <label for="contraseña">Contraseña</label>
+                    <input type="password" name="contraseña" id="contraseña" placeholder="Tu contraseña">
+                </div>
+                <div class="campo">
+                    <label for="contraseña2">Repite la contraseña</label>
+                    <input type="password" name="contraseña2" id="contraseña2" placeholder="Tu contraseña">
+                </div>
+
+                <div class="txt-center">
+                    <input type="submit" class="boton" id="registro" value="Registrarme">
+                    <br>
+                    <br>
+                    <a href="../../../index.html">&laquo; Ya tengo una cuenta</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="../auth/registro.js"></script>
+</body>
+
+</html>
