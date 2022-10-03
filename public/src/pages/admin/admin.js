@@ -51,28 +51,10 @@ function tabs() {
         boton.addEventListener("click", function (e) {
             paso = parseInt(e.target.dataset.paso);
             mostrarSeccion();
-            botonesPaginador();
         });
     });
 }
 
-function botonesPaginador() {
-    const pagAnterior = document.querySelector("#anterior");
-    const pagSiguiente = document.querySelector("#siguiente");
-
-    if (paso === 1) {
-        pagAnterior.classList.add("ocultar-paginador");
-        pagSiguiente.classList.remove("ocultar-paginador");
-    } else if (paso === 3) {
-        pagAnterior.classList.remove("ocultar-paginador");
-        pagSiguiente.classList.add("ocultar-paginador");
-        mostrarResumen();
-    } else {
-        pagAnterior.classList.remove("ocultar-paginador");
-        pagSiguiente.classList.remove("ocultar-paginador");
-    }
-    mostrarSeccion();
-}
 
 function nombreCliente() {
     document.querySelector("#nombreCliente").textContent = localStorage.getItem('user')
@@ -263,13 +245,48 @@ async function eliminarServicio(servicioId) {
     }
 }
 
-async function actualizarServicio(servicioId) {
-    console.log(servicioId);
+async function actualizarServicio(id) {
+
+    const nombreServicio = document.querySelector('#nombreServicioActualizado').value
+    const precioServicio = document.querySelector('#precioServicioActualizado').value
+
+    const datos = new FormData();
+
+    datos.append("nombre", nombreServicio);
+    datos.append("precio", precioServicio);
+
+    try {
+        const respuesta = await fetch(`${api}/servicios/actualizar?id=${id}`, {
+            method: "POST",
+            body: datos
+        });
+        const resultado = await respuesta.json();
+
+        if (resultado.tipo === 'error') {
+            mostrarAlerta(resultado.msg, 'error', '.formulario')
+        } else {
+            Swal.fire(
+                'Muy bien!',
+                resultado.respuesta.mensaje,
+                'success'
+            ).then(() => {
+                window.location.reload()
+            })
+        }
+
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Hubo un error al guardar la cita',
+        })
+    }
+
 }
 
 async function modalFormulario(servicio) {
 
-    const { nombre, precio } = servicio
+    const { nombre, precio, id } = servicio
 
     const modal = document.createElement('DIV')
     modal.classList.add('modal')
@@ -278,23 +295,30 @@ async function modalFormulario(servicio) {
                 <h2>Actualizar Servicio</h2>
                 <div class="campo">
                     <label for="nombreServicio">Nombre</label>
-                    <input type="text" id="nombreServicio" value="${nombre}" placeholder="Nombre de tu servicio" />
+                    <input type="text" id="nombreServicioActualizado" value="${nombre}" placeholder="Nombre de tu servicio" />
                 </div>
                 <div class="campo">
                     <label for="precioServicio">Precio</label>
-                    <input type="number" value="${precio}" id="precioServicio" placeholder="Precio de tu servicio" />
+                    <input type="number" value="${precio}" id="precioServicioActualizado" placeholder="Precio de tu servicio" />
                 </div>
                 <div class="opciones">
-                    <input type="submit" value="Actualizar" class="btn-editar" id="crear-servicio" />
+                    <input type="submit" value="Actualizar" class="btn-editar" id="actualizar-servicio" />
                     <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="precioServicio" />
                 </div>
             </form>
         `
 
+    // Cerrar modal
     modal.addEventListener('click', function (e) {
         e.preventDefault()
-        if (e.target.classList.contains('cerrar')) {
-            modal.remove()
+        if (e.target.classList.contains('cerrar')) modal.remove()
+    })
+
+    // btn actualizar
+    modal.addEventListener('click', function (e) {
+        e.preventDefault()
+        if (e.target.classList.contains('btn-editar')) {
+            actualizarServicio(id)
         }
     })
 

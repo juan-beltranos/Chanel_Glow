@@ -77,11 +77,11 @@ img {
   margin: 0 auto;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .app {
     overflow-y: scroll;
   }
-}
+} */
 
 .boton {
   padding: 1rem;
