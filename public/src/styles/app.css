@@ -1,14 +1,14 @@
 /* globales */
 
 :root {
-  --primary: rgb(88, 120, 226);
+  --primary: #CB6CE6;
   --secondary: #FFFF;
-  --dark: rgb(55, 86, 189);
+  --dark: #b262c9;
 }
 
 body {
-  background: black;
-  color: white;
+  background: var(--secondary);
+  color: black;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -16,14 +16,14 @@ body {
 h1,
 h2,
 h3 {
-  color: white;
+  color: var(--primary);
   text-align: center;
   font-weight: bold;
 }
 
 a {
   text-decoration: none;
-  color: rgb(233, 213, 32);
+  color: var(--dark);
 }
 
 img {
@@ -75,13 +75,10 @@ img {
   width: 95%;
   height: 100vh;
   margin: 0 auto;
+  overflow-y: scroll;
 }
 
-/* @media (min-width: 768px) {
-  .app {
-    overflow-y: scroll;
-  }
-} */
+
 
 .boton {
   padding: 1rem;
@@ -97,6 +94,10 @@ img {
   cursor: pointer;
 }
 
+#nombreCliente {
+  color: var(--dark);
+}
+
 /* Formulario login */
 .formulario {
   width: 100%;
@@ -106,23 +107,36 @@ img {
 .campo {
   display: flex;
   margin-bottom: 2rem;
-  align-items: center;
+
 }
 
 .campo label {
-  flex: 0 0 10rem;
+  flex: 0 0 5rem;
+
 }
 
 .campo input {
   flex: 1;
   border: none;
   padding: 10px;
-  border-radius: 1rem;
+  border: 1px solid gainsboro;
+  border-radius: 2rem;
 }
+
+@media(min-width: 768px) {
+  .campo {
+    align-items: center;
+  }
+
+  .campo label {
+    flex: 0 0 10rem;
+  }
+}
+
 
 /* Formulario citas */
 .campo input:disabled {
-  background-color: lightslategrey;
+  background-color: var(--primary);
   color: var(--secondary);
   cursor: not-allowed;
 }
@@ -191,6 +205,7 @@ img {
   transition-duration: 300ms;
   text-align: center;
   margin-bottom: 1rem;
+  border: 2px solid gainsboro;
 }
 
 .servicio:hover {
@@ -221,7 +236,7 @@ img {
   .servicio {
     background-color: var(--secondary);
     color: black;
-    padding: 1rem;
+    padding: 10px;
     border-radius: 1rem;
     transition-property: transform;
     transition-duration: 300ms;
@@ -260,7 +275,7 @@ img {
 }
 
 .barra .boton {
-  background-color: rgb(184, 8, 8);
+  background-color: var(--primary);
   margin: 0;
 }
 
@@ -276,6 +291,9 @@ img {
 /* Citas admin */
 .listado-citas {
   padding: 1rem;
+  border-left: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
+  border-top: 1px solid gainsboro;
 }
 
 .citas {
@@ -294,12 +312,14 @@ img {
 
 .citas span {
   font-weight: 400;
-  color: var(--secondary);
+  color: black;
 
 }
 
 .servicioCita {
   font-weight: 400;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid gainsboro;
 }
 
 /* Servcios admin */
@@ -333,10 +353,11 @@ img {
 
 .btn-editar {
   padding: 0.5rem;
-  background-color: rgb(233, 213, 32);
+  background-color: #D52084;
   color: var(--secondary);
   font-weight: bold;
   text-transform: uppercase;
+  border: none;
 }
 
 .btn-editar:hover {
@@ -345,10 +366,12 @@ img {
 
 .btn-eliminar {
   padding: 0.5rem;
-  background-color: rgb(184, 8, 8);
+  background-color: #891046;
   color: var(--secondary);
   font-weight: bold;
   text-transform: uppercase;
+  border: none;
+
 }
 
 .btn-eliminar:hover {
@@ -359,16 +382,16 @@ img {
 /* Modal */
 .modal {
   position: absolute;
-  background-color: rgb(0, 0, 0 ,0.8);
+  background-color: rgb(0, 0, 0, 0.8);
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-
+  height: auto;
 }
 
 .modal .actualizar-servicio {
-  max-width: 50%;
+  max-width: 80%;
   background-color: var(--primary);
   padding: 1rem;
   border-radius: 1rem;
@@ -377,6 +400,21 @@ img {
   transition-property: transform;
   transition-duration: 300ms;
 }
+
+.actualizar-servicio h2 {
+  color: var(--secondary);
+}
+
+.actualizar-servicio .campo label {
+  color: var(--secondary);
+}
+
+@media(min-width: 768px) {
+  .modal .actualizar-servicio {
+    max-width: 50%;
+  }
+}
+
 .opciones {
   display: flex;
   justify-content: space-between;

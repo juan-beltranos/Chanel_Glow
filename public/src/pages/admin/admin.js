@@ -214,7 +214,7 @@ async function crearServicio() {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Hubo un error al guardar la cita',
+                text: 'Hubo un error al crear el servicio',
             })
         }
     })
@@ -240,7 +240,7 @@ async function eliminarServicio(servicioId) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Hubo un error al eliminar la cita',
+            text: 'Hubo un error al eliminar el servicio',
         })
     }
 }
@@ -278,7 +278,7 @@ async function actualizarServicio(id) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Hubo un error al guardar la cita',
+            text: 'Hubo un error al actualizar el servicio',
         })
     }
 

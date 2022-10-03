@@ -10,6 +10,7 @@ export function fechaFormateada(fecha) {
 
     const fechaUTC = new Date(Date.UTC(year, mes, dia))
     const fechaFormateada = fechaUTC.toLocaleDateString('es-ES', opciones)
+    
     return fechaFormateada
 }
 
