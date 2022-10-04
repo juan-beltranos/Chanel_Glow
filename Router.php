@@ -24,7 +24,7 @@ class Router
         session_start();
 
 
-        //  $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; En desarrollo
+        // $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; 
         $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
 
         $method = $_SERVER['REQUEST_METHOD'];
