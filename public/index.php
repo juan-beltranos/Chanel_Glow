@@ -32,7 +32,8 @@ $router->post('/api/citas/actualizar', [citaControllers::class, 'putCitas']);
 $router->post('/api/citas/eliminar', [citaControllers::class, 'deleteCita']);
 
 // Admin
-$router->get('/api/citasClientes', [adminController::class, 'index']);
+$router->get('/api/citasClientesAll', [adminController::class, 'index']);
+$router->get('/api/citasClientes', [adminController::class, 'citaClienteId']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

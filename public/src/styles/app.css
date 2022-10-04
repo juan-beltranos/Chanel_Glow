@@ -3,14 +3,14 @@
 :root {
   --primary: #CB6CE6;
   --secondary: #FFFF;
-  --dark: #b262c9;
+  --dark: #9452a7;
 }
 
 body {
   background: var(--secondary);
   color: black;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial;
 }
 
 h1,
@@ -24,6 +24,10 @@ h3 {
 a {
   text-decoration: none;
   color: var(--dark);
+}
+
+p {
+  font-weight: bold;
 }
 
 img {
@@ -52,11 +56,11 @@ img {
 }
 
 .alerta.error {
-  background-color: rgb(184, 8, 8);
+  background-color: var(--dark);
 }
 
 .alerta.exito {
-  background-color: rgb(7, 156, 19);
+  background-color: var(--primary);
 }
 
 @media (min-width: 768px) {
@@ -87,6 +91,7 @@ img {
   font-weight: bold;
   font-size: 15px;
   text-align: center;
+  border: none;
 }
 
 .boton:hover {
@@ -182,6 +187,7 @@ img {
 .tabs .actual {
   background-color: var(--secondary);
   color: var(--primary);
+  border: 2px solid gainsboro;
 }
 
 /* Paginacion */
@@ -209,7 +215,8 @@ img {
 }
 
 .servicio:hover {
-  transform: scale(1.1);
+  transform: scale(1);
+  cursor: pointer;
 }
 
 .servicio .precio-servicio {
@@ -330,7 +337,7 @@ img {
 .servicio-admin {
   text-align: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--secondary);
+  border-bottom: 1px solid gainsboro;
 }
 
 @media(min-width: 768px) {
@@ -353,7 +360,7 @@ img {
 
 .btn-editar {
   padding: 0.5rem;
-  background-color: #D52084;
+  background-color: var(--dark);
   color: var(--secondary);
   font-weight: bold;
   text-transform: uppercase;
@@ -366,7 +373,7 @@ img {
 
 .btn-eliminar {
   padding: 0.5rem;
-  background-color: #891046;
+  background-color: #D52084;
   color: var(--secondary);
   font-weight: bold;
   text-transform: uppercase;
@@ -418,4 +425,5 @@ img {
 .opciones {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }

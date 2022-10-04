@@ -65,7 +65,7 @@ function getCitas() {
     fechaCita.addEventListener('input', async function (e) {
         const fecha = e.target.value;
         try {
-            const resultado = await fetch(`${api}/citasClientes?fecha=${fecha}`);
+            const resultado = await fetch(`${api}/citasClientesAll?fecha=${fecha}`);
             const citas = await resultado.json();
             if (citas.length === 0) {
                 listadoCitas.innerHTML = ''

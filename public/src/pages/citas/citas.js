@@ -1,7 +1,7 @@
 import { api } from "../../api/barberAPI.js";
 import { mostrarAlerta } from "../../components/Alert.js";
 import { fechaFormateada, deshabilitarFechasAnteriores } from "../../helpers/fechas.js";
-import { validarSesion , cerrarSesion} from "../../helpers/sesion.js";
+import { validarSesion, cerrarSesion } from "../../helpers/sesion.js";
 
 import Swal from 'sweetalert2'
 
@@ -16,6 +16,8 @@ const cita = {
     servicios: [],
 };
 
+const listadoCitas = document.querySelector('.listado-citas');
+
 document.addEventListener("DOMContentLoaded", function () {
     iniciarApp();
 });
@@ -29,6 +31,7 @@ function iniciarApp() {
     paginaAnterior();
     getServicios();
     nombreCliente();
+    getCitasCliente()
     seleccionarFecha();
     deshabilitarFechasAnteriores();
     seleccionarHora();
@@ -56,6 +59,8 @@ function mostrarSeccion() {
     // Resalta el tab actual
     const tab = document.querySelector(`[data-paso="${paso}"]`);
     tab.classList.add("actual");
+
+    getCitasCliente()
 }
 
 function tabs() {
@@ -80,6 +85,9 @@ function botonesPaginador() {
         pagAnterior.classList.remove("ocultar-paginador");
         pagSiguiente.classList.add("ocultar-paginador");
         mostrarResumen();
+    } else if (paso === 4) {
+        pagAnterior.classList.add("ocultar-paginador");
+        pagSiguiente.classList.add("ocultar-paginador");
     } else {
         pagAnterior.classList.remove("ocultar-paginador");
         pagSiguiente.classList.remove("ocultar-paginador");
@@ -289,7 +297,8 @@ async function reservarCita() {
                 resultado.respuesta.mensaje,
                 'success'
             ).then(() => {
-                window.location.reload()
+                paso = 4
+                mostrarSeccion()
             })
         }
     } catch (error) {
@@ -299,5 +308,98 @@ async function reservarCita() {
             text: 'Hubo un error al guardar la cita',
         })
     }
+
+}
+
+async function getCitasCliente() {
+
+    try {
+        const resultado = await fetch(`${api}/citasClientes?id_cliente=${localStorage.getItem('id')}`);
+        const citas = await resultado.json();
+        if (citas.length === 0) return mostrarAlerta('No has reservado una cita aun', 'error', '.listado-citas', false)
+        mostrarCitas(citas);
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
+function mostrarCitas(citas) {
+    listadoCitas.innerHTML = ''
+
+    let idCita;
+
+    citas.forEach(cita => {
+
+        const { precio, fecha, hora, servicio, id } = cita;
+
+        if (idCita !== id) {
+            const ul = document.createElement('UL')
+            const li = document.createElement('LI')
+            ul.classList.add('citas')
+
+            li.innerHTML = `
+                <p>ID: <span>${id}</span></p>
+                <p>Hora: <span>${hora}</span></p>
+                <p>Fecha: <span>${fechaFormateada(fecha)}</span></p>
+                <h2>Servicios</h2>
+            `
+            idCita = id
+
+            ul.appendChild(li);
+            listadoCitas.appendChild(ul)
+        }
+
+        const DivAcciones = document.createElement('DIV')
+        DivAcciones.classList.add('opciones')
+
+        const servicioTxt = document.createElement('P');
+        servicioTxt.classList.add('servicioCita')
+        servicioTxt.textContent = `${servicio} : ${precio}`
+
+        const btnCancelarCita = document.createElement('BUTTON')
+        btnCancelarCita.textContent = 'Cancelar cita'
+        btnCancelarCita.classList.add('btn-eliminar')
+        btnCancelarCita.style.height = '30px'
+        btnCancelarCita.addEventListener('click', function () { cancelarCita(id) })
+
+        DivAcciones.appendChild(servicioTxt)
+        DivAcciones.appendChild(btnCancelarCita)
+
+        listadoCitas.appendChild(DivAcciones)
+
+    })
+}
+
+async function cancelarCita(id) {
+
+    Swal.fire({
+        title: 'Estas seguro/a de cancelar la cita?',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const respuesta = await fetch(`${api}/citas/eliminar?id=${id}`, { method: "POST" });
+                const resultado = await respuesta.json();
+                Swal.fire(
+                    'Muy bien!',
+                    resultado.mensaje,
+                    'success'
+                ).then(() => {
+                   window.location.reload()
+                })
+            }
+            catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un error al eliminar el servicio',
+                })
+            }
+
+        }
+    })
 
 }

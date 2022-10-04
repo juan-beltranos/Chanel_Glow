@@ -29,6 +29,7 @@ class citaControllers
         echo json_encode($cita);
     }
 
+
     public static function postCitas()
     {
         $citas = new Citas;
@@ -132,7 +133,7 @@ class citaControllers
                 http_response_code(400);
                 $respuesta = [
                     'tipo' => 'error',
-                    'mensaje' => 'Esa cita no existe'
+                    'mensaje' => 'Esa cita no existe :('
                 ];
                 echo json_encode($respuesta);
                 return;
@@ -146,11 +147,13 @@ class citaControllers
             http_response_code(200);
             $resultado = [
                 'resultado' => $resultado,
-                'mensaje' => 'Eliminado Correctamente',
+                'mensaje' => 'Cita cancelada Correctamente',
                 'tipo' => 'exito'
             ];
 
             echo json_encode($resultado);
         }
     }
+
+
 }
