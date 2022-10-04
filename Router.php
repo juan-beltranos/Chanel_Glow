@@ -19,16 +19,14 @@ class Router
 
     public function comprobarRutas()
     {
-        
+
         // Proteger Rutas...
         session_start();
 
-        // Arreglo de rutas protegidas...
-        // $rutas_protegidas = ['/admin', '/propiedades/crear', '/propiedades/actualizar', '/propiedades/eliminar', '/vendedores/crear', '/vendedores/actualizar', '/vendedores/eliminar'];
 
-        // $auth = $_SESSION['login'] ?? null;
+        //  $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; En desarrollo
+        $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
 
-        $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {
@@ -38,7 +36,7 @@ class Router
         }
 
 
-        if ( $fn ) {
+        if ($fn) {
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {
@@ -61,5 +59,4 @@ class Router
         $contenido = ob_get_clean(); // Limpia el Buffer
         include_once __DIR__ . '/views/layout.php';
     }
-    
 }

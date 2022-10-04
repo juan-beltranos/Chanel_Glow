@@ -14,5 +14,7 @@
             "email": "sebastianbeltran341@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
 }

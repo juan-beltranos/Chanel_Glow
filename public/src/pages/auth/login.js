@@ -35,9 +35,9 @@ async function login(e) {
             localStorage.setItem('id', resultado.id_user)
             mostrarAlerta('Inicio de sesion exitoso', 'exito', '.formulario')
             if (resultado.admin === '1') {
-                setTimeout(() => {window.location.href = "/src/pages/admin/admin.html"}, 1500);
+                setTimeout(() => {window.location.href = "/pages/admin/admin.html"}, 1500);
             } else {
-                setTimeout(() => {window.location.href = "/src/pages/citas/citas.html"}, 1500);
+                setTimeout(() => {window.location.href = "/pages/citas/citas.html"}, 1500);
             }
         }
 

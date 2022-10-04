@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite src",
     "build": "vite build",
-    "preview": "vite preview"
+    "serve": "vite preview"
   },
   "devDependencies": {
     "vite": "^3.1.0"
