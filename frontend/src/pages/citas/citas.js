@@ -322,7 +322,6 @@ async function getCitasCliente() {
         console.log(error);
     }
 
-
 }
 
 function mostrarCitas(citas) {
