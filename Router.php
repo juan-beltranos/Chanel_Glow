@@ -24,8 +24,8 @@ class Router
         session_start();
 
 
-        //   $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
-        $currentUrl = $_SERVER['REQUEST_URI']  ?? '/'; // En produccion
+        // $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
+        $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
 
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -40,7 +40,7 @@ class Router
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {
-            echo  json_encode("Página No Encontrada o Ruta no válida");
+            echo "Página No Encontrada o Ruta no válida";
         }
     }
 
