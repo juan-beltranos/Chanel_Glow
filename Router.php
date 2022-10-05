@@ -40,7 +40,7 @@ class Router
             // Call user fn va a llamar una función cuando no sabemos cual sera
             call_user_func($fn, $this); // This es para pasar argumentos
         } else {
-            echo "Página No Encontrada o Ruta no válida";
+            echo  json_encode("Página No Encontrada o Ruta no válida");
         }
     }
 
