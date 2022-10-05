@@ -25,9 +25,8 @@ class Router
 
 
         // $currentUrl = $_SERVER['PATH_INFO'] ?? '/'; 
-        $params = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
-        
-        $currentUrl = explode('/', $params);
+        $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
+
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {
