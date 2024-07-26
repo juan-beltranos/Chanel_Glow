@@ -1,0 +1,8 @@
+Backend
+
+composer i
+php -S localhost:3000
+
+frontend
+npm i
+npm run dev

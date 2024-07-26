@@ -37,7 +37,9 @@ img {
 .txt-center {
   text-align: center;
 }
-
+.text-white {
+  color: var(--secondary);
+}
 .imagen {
   height: 15rem;
   background-image: url("../../img/logo.jpg");
@@ -105,14 +107,15 @@ img {
 
 /* Formulario login */
 .formulario {
-  width: 100%;
+  width: 95%;
+  margin: auto;
   margin-bottom: 1rem;
 }
 
 .campo {
   display: flex;
-  margin-bottom: 2rem;
-
+  margin-bottom: 1rem;
+  gap:1rem;
 }
 
 .campo label {
@@ -297,15 +300,13 @@ img {
 
 /* Citas admin */
 .listado-citas {
-  padding: 1rem;
-  border-left: 1px solid gainsboro;
-  border-right: 1px solid gainsboro;
-  border-top: 1px solid gainsboro;
+ 
 }
 
 .citas {
   list-style: none;
-  padding: 0;
+  padding: 1rem;
+  border :2px solid gainsboro;
 }
 
 .citas li {
@@ -325,8 +326,6 @@ img {
 
 .servicioCita {
   font-weight: 400;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid gainsboro;
 }
 
 /* Servcios admin */
@@ -420,10 +419,14 @@ img {
   .modal .actualizar-servicio {
     max-width: 50%;
   }
+  .modal .datos-consulta {
+    max-width: 50%;
+    margin: auto;
+  }
 }
 
 .opciones {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
+

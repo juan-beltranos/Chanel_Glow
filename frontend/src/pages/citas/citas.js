@@ -133,7 +133,7 @@ function mostrarServicios(servicios) {
 
         const precioServicio = document.createElement("P");
         precioServicio.classList.add("precio-servicio");
-        precioServicio.textContent = `$${precio}`;
+        precioServicio.textContent = `$${formatearPrecio(precio)}`;
 
         const servicioDiv = document.createElement("DIV");
         servicioDiv.classList.add("servicio");
@@ -199,6 +199,10 @@ function seleccionarHora() {
     });
 }
 
+function formatearPrecio(precio) {
+    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function mostrarResumen() {
     const resumen = document.querySelector(".contenido-resumen");
 
@@ -209,7 +213,7 @@ function mostrarResumen() {
 
     if (Object.values(cita).includes("") || cita.servicios.length === 0) {
         return mostrarAlerta(
-            "faltan datos o servicios",
+            "Faltan datos o servicios",
             "error",
             ".contenido-resumen",
             false
@@ -223,8 +227,12 @@ function mostrarResumen() {
     headerServicios.textContent = "Resumen de Servicios";
     resumen.appendChild(headerServicios);
 
+    let totalPrecio = 0;
+
     servicios.forEach((servicio) => {
-        const { id, precio, nombre } = servicio;
+        const { precio, nombre } = servicio;
+
+        totalPrecio += Number(precio) ;
 
         const contenedorServicio = document.createElement("DIV");
         contenedorServicio.classList.add("contenedor-servicios");
@@ -233,7 +241,7 @@ function mostrarResumen() {
         txtServicio.textContent = nombre;
 
         const precioServicio = document.createElement("P");
-        precioServicio.innerHTML = `<span>Precio:</span> ${precio}`;
+        precioServicio.innerHTML = `<span>Precio:</span> ${formatearPrecio(precio)}`;
 
         contenedorServicio.appendChild(txtServicio);
         contenedorServicio.appendChild(precioServicio);
@@ -241,7 +249,13 @@ function mostrarResumen() {
         resumen.appendChild(contenedorServicio);
     });
 
-    // Header servicios resumen
+    // Mostrar el total de los precios
+    const totalServicios = document.createElement("P");
+    totalServicios.classList.add("total-servicios");
+    totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+    resumen.appendChild(totalServicios);
+
+    // Header de cita resumen
     const headerCita = document.createElement("H2");
     headerCita.textContent = "Resumen de Cita";
     resumen.appendChild(headerCita);
@@ -255,20 +269,20 @@ function mostrarResumen() {
     const horaCita = document.createElement("P");
     horaCita.innerHTML = `<span>Hora:</span> ${hora} Horas`;
 
-    // Boton reservar cita
-    const divBotton = document.createElement("DIV");
-    divBotton.classList.add("txt-center");
-    divBotton.style.marginBottom = "20px";
+    // Botón para reservar cita
+    const divBoton = document.createElement("DIV");
+    divBoton.classList.add("txt-center");
+    divBoton.style.marginBottom = "20px";
     const botonReservar = document.createElement("BUTTON");
     botonReservar.classList.add("boton");
     botonReservar.textContent = "Reservar Cita";
-    divBotton.appendChild(botonReservar);
+    divBoton.appendChild(botonReservar);
     botonReservar.onclick = reservarCita;
 
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
     resumen.appendChild(horaCita);
-    resumen.appendChild(divBotton);
+    resumen.appendChild(divBoton);
 }
 
 async function reservarCita() {
@@ -325,50 +339,84 @@ async function getCitasCliente() {
 }
 
 function mostrarCitas(citas) {
-    listadoCitas.innerHTML = ''
+    listadoCitas.innerHTML = '';
 
-    let idCita;
+    let idCita = null;
+    let totalPrecio = 0;
+    let ul = null;
+    let DivAcciones = null;
 
     citas.forEach(cita => {
-
         const { precio, fecha, hora, servicio, id } = cita;
 
+        // Si el id de la cita actual es diferente del idCita almacenado
         if (idCita !== id) {
-            const ul = document.createElement('UL')
-            const li = document.createElement('LI')
-            ul.classList.add('citas')
+            // Si ya existe una ul, añadimos el total y el botón de cancelar a la cita anterior
+            if (ul) {
+                const totalServicios = document.createElement("P");
+                totalServicios.classList.add("total-servicios");
+                totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
 
+                const btnCancelarCita = document.createElement('BUTTON');
+                btnCancelarCita.textContent = 'Cancelar cita';
+                btnCancelarCita.classList.add('btn-eliminar');
+                btnCancelarCita.style.height = 'auto';
+                btnCancelarCita.addEventListener('click', function () { cancelarCita(idCita) });
+
+                DivAcciones.appendChild(totalServicios);
+                DivAcciones.appendChild(btnCancelarCita);
+
+                ul.appendChild(DivAcciones);
+                listadoCitas.appendChild(ul);
+            }
+
+            // Reseteamos los valores para la nueva cita
+            totalPrecio = 0; // Reiniciar total de precio
+            idCita = id; // Actualizar el ID de la cita
+
+            // Crear nueva lista y div de acciones
+            ul = document.createElement('UL');
+            ul.classList.add('citas');
+
+            const li = document.createElement('LI');
             li.innerHTML = `
                 <p>ID: <span>${id}</span></p>
                 <p>Hora: <span>${hora}</span></p>
                 <p>Fecha: <span>${fechaFormateada(fecha)}</span></p>
                 <h2>Servicios</h2>
-            `
-            idCita = id
-
+            `;
             ul.appendChild(li);
-            listadoCitas.appendChild(ul)
+
+            DivAcciones = document.createElement('DIV');
+            DivAcciones.classList.add('opciones');
         }
 
-        const DivAcciones = document.createElement('DIV')
-        DivAcciones.classList.add('opciones')
-
+        // Añadir el servicio actual a la lista de servicios
+        totalPrecio += Number(precio); // Sumar el precio al total
         const servicioTxt = document.createElement('P');
-        servicioTxt.classList.add('servicioCita')
-        servicioTxt.textContent = `${servicio} : ${precio}`
+        servicioTxt.classList.add('servicioCita');
+        servicioTxt.textContent = `${servicio} : ${formatearPrecio(precio)}`;
+        DivAcciones.appendChild(servicioTxt);
+    });
 
-        const btnCancelarCita = document.createElement('BUTTON')
-        btnCancelarCita.textContent = 'Cancelar cita'
-        btnCancelarCita.classList.add('btn-eliminar')
-        btnCancelarCita.style.height = '30px'
-        btnCancelarCita.addEventListener('click', function () { cancelarCita(id) })
+    // Añadir el total y el botón de cancelar para la última cita
+    if (ul) {
+        const totalServicios = document.createElement("P");
+        totalServicios.classList.add("total-servicios");
+        totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
 
-        DivAcciones.appendChild(servicioTxt)
-        DivAcciones.appendChild(btnCancelarCita)
+        const btnCancelarCita = document.createElement('BUTTON');
+        btnCancelarCita.textContent = 'Cancelar cita';
+        btnCancelarCita.classList.add('btn-eliminar');
+        btnCancelarCita.style.height = 'auto';
+        btnCancelarCita.addEventListener('click', function () { cancelarCita(idCita) });
 
-        listadoCitas.appendChild(DivAcciones)
+        DivAcciones.appendChild(totalServicios);
+        DivAcciones.appendChild(btnCancelarCita);
 
-    })
+        ul.appendChild(DivAcciones);
+        listadoCitas.appendChild(ul);
+    }
 }
 
 async function cancelarCita(id) {
@@ -387,14 +435,14 @@ async function cancelarCita(id) {
                     resultado.mensaje,
                     'success'
                 ).then(() => {
-                   window.location.reload()
+                    window.location.reload()
                 })
             }
             catch (error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Hubo un error al eliminar el servicio',
+                    text: 'Hubo un error al cancelar la cita',
                 })
             }
 

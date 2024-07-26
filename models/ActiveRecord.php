@@ -167,8 +167,7 @@ class ActiveRecord
         return $array;
     }
 
-    protected static function crearObjeto($registro)
-    {
+    protected static function crearObjeto($registro) {
         $objeto = new static;
 
         foreach ($registro as $key => $value) {

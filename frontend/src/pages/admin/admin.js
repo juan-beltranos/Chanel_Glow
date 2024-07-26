@@ -7,7 +7,6 @@ import Swal from 'sweetalert2'
 let paso = 1;
 const listadoCitas = document.querySelector('.listado-citas');
 
-
 document.addEventListener("DOMContentLoaded", function () {
     iniciarApp();
 });
@@ -55,7 +54,6 @@ function tabs() {
     });
 }
 
-
 function nombreCliente() {
     document.querySelector("#nombreCliente").textContent = localStorage.getItem('user')
 }
@@ -79,57 +77,11 @@ function getCitas() {
 
 }
 
-function mostrarCitas(citas) {
-    listadoCitas.innerHTML = ''
-
-    let idCita;
-
-    citas.forEach(cita => {
-
-        const { cliente, precio, hora, servicio, telefono, id, email } = cita;
-
-        if (idCita !== id) {
-            const ul = document.createElement('UL')
-            const li = document.createElement('LI')
-            ul.classList.add('citas')
-
-            li.innerHTML = `
-                <p>ID: <span>${id}</span></p>
-                <p>Hora: <span>${hora}</span></p>
-                <p>Cliente: <span>${cliente}</span></p>
-                <p>Correo: <span>${email}</span></p>
-                <p>Telefono: <span>${telefono}</span></p>
-                <h2>Servicios</h2>
-            `
-            idCita = id
-
-            ul.appendChild(li);
-            listadoCitas.appendChild(ul)
-        }
-
-        const servicioTxt = document.createElement('P');
-        servicioTxt.classList.add('servicioCita')
-        servicioTxt.textContent = `${servicio} : ${precio}`
-        console.log(precio);
-
-        listadoCitas.appendChild(servicioTxt)
-
-    })
-}
-
-async function getServicios() {
-    try {
-        const resultado = await fetch(`${api}/servicios`);
-        const servicios = await resultado.json();
-        mostrarServicios(servicios);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 function mostrarServicios(servicios) {
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
+
+        const precioFormateado = formatearPrecio(precio);
 
         const contenedorDatos = document.createElement('DIV')
         contenedorDatos.classList.add('contenedor-datos')
@@ -140,7 +92,7 @@ function mostrarServicios(servicios) {
 
         const precioServicio = document.createElement("P");
         precioServicio.classList.add("precio-servicio");
-        precioServicio.textContent = `$${precio}`;
+        precioServicio.textContent = `$${precioFormateado}`;
 
         contenedorDatos.appendChild(nombreServicio)
         contenedorDatos.appendChild(precioServicio)
@@ -149,14 +101,13 @@ function mostrarServicios(servicios) {
         servicioDiv.classList.add("servicio-admin");
         servicioDiv.dataset.idServicio = id;
 
-
         // Botones
         const contenedorBotones = document.createElement('DIV')
         const btnEditar = document.createElement('BUTTON')
         btnEditar.classList.add('btn-editar')
         btnEditar.textContent = 'Actualizar'
         btnEditar.onclick = function () {
-            modalFormulario(servicio);
+            modalFormulario('servicios', servicio);
         };
 
         const btnEliminar = document.createElement('BUTTON')
@@ -175,6 +126,213 @@ function mostrarServicios(servicios) {
     });
 }
 
+function mostrarCitas(citas) {
+    listadoCitas.innerHTML = '';
+
+    let idCita = null;
+    let ul = null;
+    let li = null;
+    let totalPrecio = 0;
+
+    citas.forEach(cita => {
+        const { cliente, precio, hora, servicio, telefono, id, email } = cita;
+
+        // Si encontramos una nueva cita, creamos un nuevo <ul> y <li>
+        if (idCita !== id) {
+            // Si ya existe un <li>, lo añadimos al <ul> y luego añadimos el <ul> al listado
+            if (li) {
+                const totalServicios = document.createElement("P");
+                totalServicios.classList.add("total-servicios");
+                totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+                li.appendChild(totalServicios);
+                ul.appendChild(li);
+                listadoCitas.appendChild(ul);
+            }
+
+            // Reseteamos valores para la nueva cita
+            totalPrecio = 0;
+            idCita = id;
+
+            // Crear nuevo <ul> y <li>
+            ul = document.createElement('UL');
+            ul.classList.add('citas');
+
+            li = document.createElement('LI');
+            li.innerHTML = `
+                <p>ID: <span>${id}</span></p>
+                <p>Hora: <span>${hora}</span></p>
+                <p>Cliente: <span>${cliente}</span></p>
+                <p>Correo: <span>${email}</span></p>
+                <p>Telefono: <span>${telefono}</span></p>
+                <h2>Servicios</h2>
+            `;
+
+            // Crear contenedor para el botón
+            const botonContenedor = document.createElement('DIV');
+            botonContenedor.classList.add('boton-contenedor');
+
+            const botonLlenarPlanilla = document.createElement('BUTTON');
+            botonLlenarPlanilla.textContent = 'Llenar planilla';
+            botonLlenarPlanilla.classList.add('boton');
+            botonLlenarPlanilla.addEventListener('click', function () { modalFormulario('cita', id) });
+
+            botonContenedor.appendChild(botonLlenarPlanilla);
+            li.appendChild(botonContenedor);
+        }
+
+        // Añadir servicio actual al <li>
+        totalPrecio += Number(precio); // Sumar el precio al total
+        const servicioTxt = document.createElement('P');
+        servicioTxt.classList.add('servicioCita');
+        servicioTxt.textContent = `${servicio} : ${formatearPrecio(precio)}`;
+        li.appendChild(servicioTxt);
+    });
+
+    // Añadir el total y el botón de cancelar para la última cita
+    if (li) {
+        const totalServicios = document.createElement("P");
+        totalServicios.classList.add("total-servicios");
+        totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+        li.appendChild(totalServicios);
+
+        ul.appendChild(li);
+        listadoCitas.appendChild(ul);
+    }
+}
+
+async function modalFormulario(tipo, datos) {
+    let modalExistente = document.querySelector('.modal');
+    let modal = document.createElement('DIV');
+    modal.classList.add('modal');
+    
+    if (modalExistente) { return;}
+
+    if (tipo === 'servicios') {
+        const { nombre, precio, id } = datos;
+        modal.innerHTML = `
+            <form class="formulario actualizar-servicio">
+                <h2>Actualizar Servicio</h2>
+                <div class="campo">
+                    <label for="nombreServicio">Nombre</label>
+                    <input type="text" id="nombreServicioActualizado" value="${nombre}" placeholder="Nombre de tu servicio" />
+                </div>
+                <div class="campo">
+                    <label for="precioServicio">Precio</label>
+                    <input type="number" value="${formatearPrecio(precio)}" id="precioServicioActualizado" placeholder="Precio de tu servicio" />
+                </div>
+                <div class="opciones">
+                    <input type="submit" value="Actualizar" class="btn-editar" id="actualizar-servicio" />
+                    <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="cancelar-servicio" />
+                </div>
+            </form>
+        `;
+
+        // Evento para actualizar servicio
+        modal.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (e.target.classList.contains('btn-editar')) {
+                actualizarServicio(id);
+            }
+        });
+
+        // Evento para cerrar el modal
+        modal.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (e.target.classList.contains('cerrar')) modal.remove();
+        });
+    } else if (tipo === 'cita') {
+
+        const idCita = datos
+
+        modal.innerHTML = `
+            <form class="formulario datos-consulta">
+                <h2>Datos de la Consulta</h2>
+                <div class="campo">
+                    <label class="text-white" for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Nombre completo" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="fecha">Fecha</label>
+                    <input type="date" id="fecha" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="cc">Cc.</label>
+                    <input type="text" id="cc" placeholder="Cédula de ciudadanía" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="edad">Edad</label>
+                    <input type="number" id="edad" placeholder="Edad" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="fechaNacimiento">Fecha de nacimiento</label>
+                    <input type="date" id="fechaNacimiento" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="estadoCivil">Estado Civil</label>
+                    <input type="text" id="estadoCivil" placeholder="Estado civil" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="contactoPersonal">Contacto personal</label>
+                    <input type="text" id="contactoPersonal" placeholder="Contacto personal" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="motivoConsulta">Motivo de la consulta</label>
+                    <input type="text" id="motivoConsulta" placeholder="Motivo de la consulta" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="patologiaActual">Patología actual</label>
+                    <input type="text" id="patologiaActual" placeholder="Patología actual" />
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="fechaUltimoPeriodo">Fecha último periodo</label>
+                    <input type="date" id="fechaUltimoPeriodo" />
+                </div>
+                <div class="campo">
+                    <label class="text-white">Regularidad del periodo</label>
+                    <div>
+                        <input type="radio" id="regular" name="regularidadPeriodo" value="Regular" />
+                        <label class="text-white" for="regular">Regular</label>
+                        <input type="radio" id="irregular" name="regularidadPeriodo" value="Irregular" />
+                        <label class="text-white" for="irregular">Irregular</label>
+                    </div>
+                </div>
+                <div class="campo">
+                    <label class="text-white" for="metodoPlanificacion">Método de planificación</label>
+                    <input type="text" id="metodoPlanificacion" placeholder="Método de planificación" />
+                </div>
+                <div class="opciones">
+                    <input type="submit" value="Guardar" class="btn-editar" id="guardar-consulta" />
+                    <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="cancelar-consulta" />
+                </div>
+            </form>
+        `;
+
+        // Evento para cerrar el modal
+        modal.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (e.target.classList.contains('cerrar')) modal.remove();
+        });
+    }
+
+    document.querySelector('body').appendChild(modal);
+}
+
+async function getServicios() {
+    try {
+        const resultado = await fetch(`${api}/servicios`);
+        const servicios = await resultado.json();
+        mostrarServicios(servicios);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function formatearPrecio(precio) {
+    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 async function crearServicio() {
 
     const btnCrearServicio = document.querySelector('#crear-servicio')
@@ -183,11 +341,12 @@ async function crearServicio() {
 
         const nombreServicio = document.querySelector('#nombreServicio').value
         const precioServicio = document.querySelector('#precioServicio').value
+        const precioSinPuntos = precioServicio.replace(/\./g, '');
 
         const datos = new FormData();
 
         datos.append("nombre", nombreServicio);
-        datos.append("precio", precioServicio);
+        datos.append("precio", precioSinPuntos);
 
         try {
             const respuesta = await fetch(`${api}/servicios`, {
@@ -195,8 +354,6 @@ async function crearServicio() {
                 body: datos
             });
             const resultado = await respuesta.json();
-
-            console.log(resultado);
 
             if (resultado.tipo === 'error') {
                 mostrarAlerta(resultado.msg, 'error', '.formulario')
@@ -240,7 +397,7 @@ async function eliminarServicio(servicioId) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Hubo un error al eliminar el servicio',
+            text: 'Hubo un error al eliminar el servicio, Existen citas realizadas con este servicio',
         })
     }
 }
@@ -249,11 +406,11 @@ async function actualizarServicio(id) {
 
     const nombreServicio = document.querySelector('#nombreServicioActualizado').value
     const precioServicio = document.querySelector('#precioServicioActualizado').value
-
+    const precioSinPuntos = precioServicio.replace(/\./g, '');
     const datos = new FormData();
 
     datos.append("nombre", nombreServicio);
-    datos.append("precio", precioServicio);
+    datos.append("precio", precioSinPuntos);
 
     try {
         const respuesta = await fetch(`${api}/servicios/actualizar?id=${id}`, {
@@ -284,43 +441,3 @@ async function actualizarServicio(id) {
 
 }
 
-async function modalFormulario(servicio) {
-
-    const { nombre, precio, id } = servicio
-
-    const modal = document.createElement('DIV')
-    modal.classList.add('modal')
-    modal.innerHTML = `
-            <form class="formulario actualizar-servicio">
-                <h2>Actualizar Servicio</h2>
-                <div class="campo">
-                    <label for="nombreServicio">Nombre</label>
-                    <input type="text" id="nombreServicioActualizado" value="${nombre}" placeholder="Nombre de tu servicio" />
-                </div>
-                <div class="campo">
-                    <label for="precioServicio">Precio</label>
-                    <input type="number" value="${precio}" id="precioServicioActualizado" placeholder="Precio de tu servicio" />
-                </div>
-                <div class="opciones">
-                    <input type="submit" value="Actualizar" class="btn-editar" id="actualizar-servicio" />
-                    <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="precioServicio" />
-                </div>
-            </form>
-        `
-
-    // Cerrar modal
-    modal.addEventListener('click', function (e) {
-        e.preventDefault()
-        if (e.target.classList.contains('cerrar')) modal.remove()
-    })
-
-    // btn actualizar
-    modal.addEventListener('click', function (e) {
-        e.preventDefault()
-        if (e.target.classList.contains('btn-editar')) {
-            actualizarServicio(id)
-        }
-    })
-
-    document.querySelector('body').appendChild(modal)
-}

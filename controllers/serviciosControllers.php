@@ -34,6 +34,8 @@ class serviciosControllers
     {
         $servicio = new Servicio;
 
+   
+
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $servicio->sincronizar($_POST);
 
@@ -46,7 +48,7 @@ class serviciosControllers
                 echo json_encode($res);
                 return;
             }
-
+     
             $servicio->crear();
 
             $respuesta = [

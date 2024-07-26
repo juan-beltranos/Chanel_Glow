@@ -14,6 +14,7 @@ class Login extends ActiveRecord
     public $email;
     public $contraseña;
     public $telefono;
+    public $admin;
     public $confirmado;
     public $token;
 
