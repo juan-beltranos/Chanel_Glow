@@ -21,7 +21,7 @@ class adminController
         $consulta .= " LEFT OUTER JOIN citasServicios ";
         $consulta .= " ON citasServicios.citaId=citas.id ";
         $consulta .= " LEFT OUTER JOIN servicios ";
-        $consulta .= " ON servicios.id=citasServicios.servicioId ";
+        $consulta .= " ON servicios.id=citasServicios.servicioId "; 
         $consulta .= " WHERE fecha = '${fecha}' ";
 
         $citas =  AdminCita::SQL($consulta);
@@ -49,4 +49,5 @@ class adminController
 
         echo json_encode($citasCliente);
     }
+    
 }

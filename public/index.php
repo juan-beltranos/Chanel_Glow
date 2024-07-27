@@ -6,11 +6,11 @@ use Controllers\adminController;
 use Controllers\citaControllers;
 use Controllers\loginControllers;
 use Controllers\serviciosControllers;
+use Controllers\planillaController;
 
 use MVC\Router;
 
 $router = new Router();
-
 
 // Usuarios
 $router->post('/api/usuarios', [loginControllers::class, 'postUsuarios']);
@@ -30,6 +30,13 @@ $router->get('/api/citasId', [citaControllers::class, 'getCitasId']);
 $router->post('/api/citas', [citaControllers::class, 'postCitas']);
 $router->post('/api/citas/actualizar', [citaControllers::class, 'putCitas']);
 $router->post('/api/citas/eliminar', [citaControllers::class, 'deleteCita']);
+
+// Planillas
+$router->get('/api/planillas', [planillaController::class, 'getPlanillas']);
+$router->get('/api/planillaId', [planillaController::class, 'getPlanillaId']);
+$router->post('/api/planilla', [planillaController::class, 'postPlanilla']);
+$router->post('/api/planilla/actualizar', [planillaController::class, 'putPlanilla']);
+$router->post('/api/planilla/eliminar', [planillaController::class, 'deletePlanilla']);
 
 // Admin
 $router->get('/api/citasClientesAll', [adminController::class, 'index']);

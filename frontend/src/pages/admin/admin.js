@@ -206,8 +206,8 @@ async function modalFormulario(tipo, datos) {
     let modalExistente = document.querySelector('.modal');
     let modal = document.createElement('DIV');
     modal.classList.add('modal');
-    
-    if (modalExistente) { return;}
+
+    if (modalExistente) { return; }
 
     if (tipo === 'servicios') {
         const { nombre, precio, id } = datos;
@@ -231,20 +231,23 @@ async function modalFormulario(tipo, datos) {
 
         // Evento para actualizar servicio
         modal.addEventListener('click', function (e) {
-            e.preventDefault();
             if (e.target.classList.contains('btn-editar')) {
+                e.preventDefault(); // Prevenir comportamiento por defecto solo en este caso
                 actualizarServicio(id);
             }
         });
 
         // Evento para cerrar el modal
         modal.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (e.target.classList.contains('cerrar')) modal.remove();
+            if (e.target.classList.contains('cerrar')) {
+                e.preventDefault();
+                modal.remove();
+            }
         });
     } else if (tipo === 'cita') {
 
-        const idCita = datos
+        const idCita = datos;
+        const idUsuario = localStorage.getItem('id');
 
         modal.innerHTML = `
             <form class="formulario datos-consulta">
@@ -303,20 +306,84 @@ async function modalFormulario(tipo, datos) {
                     <input type="text" id="metodoPlanificacion" placeholder="Método de planificación" />
                 </div>
                 <div class="opciones">
-                    <input type="submit" value="Guardar" class="btn-editar" id="guardar-consulta" />
+                    <input type="submit" value="Guardar" class="btn-editar btn-guardar-consulta" id="guardar-consulta" />
                     <input type="button" value="Cancelar" class="btn-eliminar cerrar" id="cancelar-consulta" />
                 </div>
             </form>
         `;
 
+        // Evento para llenar planilla
+        modal.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevenir el envío del formulario por defecto
+            if (e.target.classList.contains('datos-consulta')) {
+                llenarPlanilla(idCita, idUsuario);
+            }
+        });
+
         // Evento para cerrar el modal
         modal.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (e.target.classList.contains('cerrar')) modal.remove();
+            if (e.target.classList.contains('cerrar')) {
+                e.preventDefault();
+                modal.remove();
+            }
         });
     }
 
     document.querySelector('body').appendChild(modal);
+}
+
+async function llenarPlanilla(idCita, idUsuario) {
+    const nombre = document.querySelector('#nombre').value;
+    const fecha = document.querySelector('#fecha').value;
+    const cc = document.querySelector('#cc').value;
+    const edad = document.querySelector('#edad').value;
+    const fechaNacimiento = document.querySelector('#fechaNacimiento').value;
+    const estadoCivil = document.querySelector('#estadoCivil').value;
+    const contactoPersonal = document.querySelector('#contactoPersonal').value;
+    const motivoConsulta = document.querySelector('#motivoConsulta').value;
+    const patologiaActual = document.querySelector('#patologiaActual').value;
+    const fechaUltimoPeriodo = document.querySelector('#fechaUltimoPeriodo').value;
+    const regularidadPeriodo = document.querySelector('input[name="regularidadPeriodo"]:checked').value;
+    const metodoPlanificacion = document.querySelector('#metodoPlanificacion').value;
+
+    const datos = new FormData();
+    datos.append("usuario_id", idUsuario);
+    datos.append("cita_id", idCita);
+    datos.append("nombre", nombre);
+    datos.append("fecha", fecha);
+    datos.append("cc", cc);
+    datos.append("edad", edad);
+    datos.append("fechaNacimiento", fechaNacimiento);
+    datos.append("estadoCivil", estadoCivil);
+    datos.append("contactoPersonal", contactoPersonal);
+    datos.append("motivoConsulta", motivoConsulta);
+    datos.append("patologiaActual", patologiaActual);
+    datos.append("fechaUltimoPeriodo", fechaUltimoPeriodo);
+    datos.append("regularidadPeriodo", regularidadPeriodo);
+    datos.append("metodoPlanificacion", metodoPlanificacion);
+
+    try {
+        const respuesta = await fetch(`${api}/planilla`, {
+            method: "POST",
+            body: datos
+        });
+        const resultado = await respuesta.json();
+
+        if (resultado.tipo === 'error') {
+            mostrarAlerta(resultado.msg, 'error', '.formulario');
+        } else {
+            Swal.fire(
+                'Muy bien!',
+                resultado.mensaje,
+                'success'
+            ).then(() => {
+                window.location.reload();
+            });
+        }
+
+    } catch (error) {
+        console.error('Error al guardar la planilla:', error);
+    }
 }
 
 async function getServicios() {
