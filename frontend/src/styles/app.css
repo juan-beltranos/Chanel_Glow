@@ -42,7 +42,7 @@ img {
 }
 .imagen {
   height: 15rem;
-  background-image: url("../../img/logo.jpg");
+  background-image: url("../img/logo.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

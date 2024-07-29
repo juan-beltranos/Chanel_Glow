@@ -8,6 +8,7 @@ export default {
       input: {
         index: path.resolve(__dirname, 'src/index.html'),
         auth: path.resolve(__dirname, 'src/pages/auth/registro.html'),
+        auth: path.resolve(__dirname, 'src/pages/auth/login.html'),
         admin: path.resolve(__dirname, 'src/pages/admin/admin.html'),
         citas: path.resolve(__dirname, 'src/pages/citas/citas.html')
       }
