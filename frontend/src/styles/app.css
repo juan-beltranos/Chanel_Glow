@@ -1,16 +1,24 @@
 /* globales */
 
 :root {
-  --primary: #CB6CE6;
-  --secondary: #FFFF;
-  --dark: #9452a7;
+  --primary: #F9A392;
+  --secondary: #FEF1EF;
+  --dark: #211E1C;
+  --light: #FFF;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
-  background: var(--secondary);
+  background: var(--light);
   color: black;
   margin: 0;
-  font-family: Arial;
+  font-family: "Poppins", sans-serif;
 }
 
 h1,
@@ -42,7 +50,7 @@ img {
 }
 .imagen {
   height: 15rem;
-  background-image: url("../img/logo.jpg");
+  background-image: url("../img/about.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -372,7 +380,7 @@ img {
 
 .btn-eliminar {
   padding: 0.5rem;
-  background-color: #D52084;
+  background-color: var(--primary);
   color: var(--secondary);
   font-weight: bold;
   text-transform: uppercase;

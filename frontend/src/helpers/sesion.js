@@ -3,7 +3,7 @@ import { api } from '../api/barberAPI.js'
 export function validarSesion() {
 
     if (localStorage.length <= 0) {
-        window.location.href = "/"
+      //  window.location.href = "/"
     }
 }
 

@@ -5,6 +5,9 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <title>Citas</title>
   <link rel="stylesheet" href="/styles/app.css">
 </head>
@@ -44,7 +47,7 @@
           </div>
           <div class="campo">
             <label for="fecha">Fecha</label>
-            <input type="date" id="fecha" min="">
+            <input class="form-control bg-transparent p-4 datetimepicker-input" type="date" id="fecha" min="">
           </div>
           <div class="campo">
             <label for="hora">Hora</label>
@@ -60,9 +63,9 @@
 
       <div class="seccion" id="paso-4">
         <h2 class="txt-center">Mis citas</h2>
-        <p class="txt-center">Aqui puedes ver todas tus citas agendadas en Chanel Glow</p>
+        <p class="txt-center">Aqui puedes ver todas tus citas agendadas en TatianaEstetica</p>
         <div class="listado-citas"></div>
-     
+
       </div>
 
       <div class="paginacion">
