@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>SPA Center - Beauty & Spa HTML Template</title>
+  <title>Tatiana Estética</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="Free HTML Templates" name="keywords">
   <meta content="Free HTML Templates" name="description">
@@ -252,36 +252,48 @@
     <div class="row justify-content-center bg-appointment mx-0">
       <div class="col-lg-6 py-5">
         <div class="p-5 my-5" style="background: rgba(33, 30, 28, 0.7);">
-          <h1 class="text-white text-center mb-4">Reserva Rapida</h1>
-          <form>
+          <h1 class="text-white text-center mb-4">Cita Rápida</h1>
+          <form class="formulario">
             <div class="form-row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control bg-transparent p-4" placeholder="Your Name"
-                    required="required">
+                  <input type="text" class="form-control bg-transparent p-4" placeholder="Tu nombre" required="required"
+                    id="nombre">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control bg-transparent p-4" placeholder="Tu apellido" required="required"
+                  id="apellido">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="email" class="form-control bg-transparent p-4" placeholder="Tu correo"
+                    required="required" id="email">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="email" class="form-control bg-transparent p-4" placeholder="Your Email"
-                    required="required">
+                  <input type="tel" class="form-control bg-transparent p-4" placeholder="Tu teléfono"
+                    required="required" id="telefono">
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <div class="date" id="date" data-target-input="nearest">
-                    <input type="text" class="form-control bg-transparent p-4 datetimepicker-input"
-                      placeholder="Select Date" data-target="#date" data-toggle="datetimepicker" id="fecha">
+                  <div class="date" data-target-input="nearest">
+                    <input type="date" class="form-control bg-transparent p-4 datetimepicker-input"
+                      placeholder="Selecciona la fecha" id="fecha">
                   </div>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <div class="time" id="time" data-target-input="nearest">
-                    <input type="text" class="form-control bg-transparent p-4 datetimepicker-input"
-                      placeholder="Select Time" data-target="#time" data-toggle="datetimepicker" id="hora">
+                  <div class="time" data-target-input="nearest">
+                    <input type="time" class="form-control bg-transparent p-4 datetimepicker-input"
+                      placeholder="Selecciona la hora" id="hora">
                   </div>
                 </div>
               </div>
@@ -289,21 +301,23 @@
             <div class="form-row">
               <div class="col-sm-12">
                 <div class="form-group">
-                    <div class="seccion mostrar" id="paso-1">
-                      <h2 class="text-center mb-4 mt-4 text-light">Elige tus servicios a continuacion</h2>
-                      <div class="listado-servicios" id="servicios">
-                      </div>
+                  <div class="sección mostrar" id="paso-1">
+                    <h3 class="text-center mb-4 mt-4 text-light">Elige tus servicios a continuación</h3>
+                    <div class="listado-servicios" id="servicios">
                     </div>
+                  </div>
+                </div>
               </div>
-          
-            </div>
-            <div class="col-sm-12">
-              <button class="btn btn-primary btn-block" type="submit" style="height: 47px;">Reservar</button>
-            </div>
+              <div class="col-sm-12">
+                <button class="btn btn-primary btn-block" style="height: 47px;" id="reservarCita">Reservar</button>
+              </div>
           </form>
         </div>
       </div>
     </div>
+
+
+
   </div>
   <!-- Service End -->
 

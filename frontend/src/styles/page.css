@@ -9717,9 +9717,27 @@ h6,
     text-align: left;
     margin-bottom: 5px;
     border: 2px solid var(--primary);
+    font-weight: bold;
   }
 
 .servicio.seleccionado {
     background-color: var(--primary);
     color:var(--light);
+}
+
+input.form-control {
+  color: white; 
+}
+
+input::placeholder {
+  color: white;
+  opacity: 1; 
+}
+
+input:-ms-input-placeholder {
+  color: white;
+}
+
+input::-ms-input-placeholder {
+  color: white;
 }

@@ -8,7 +8,7 @@
   <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <title>Citas</title>
+  <title>Tatiana Estética - Citas</title>
   <link rel="stylesheet" href="/styles/app.css">
 </head>
 
@@ -21,19 +21,19 @@
 
       <div class="barra">
         <p>Hola: <span id="nombreCliente"></span> </p>
-        <button id="cerrar-sesion" class="boton">Cerrar Sesion</button>
+        <button id="cerrar-sesion" class="boton">Cerrar Sesión</button>
       </div>
 
       <nav class="tabs">
         <button type="button" data-paso="1">Servicios</button>
-        <button type="button" data-paso="2">informacion Cita</button>
+        <button type="button" data-paso="2">Información Cita</button>
         <button type="button" data-paso="3">Resumen</button>
         <button type="button" data-paso="4">Mis citas</button>
       </nav>
 
       <div class="seccion" id="paso-1">
         <h2 class="txt-center">Servicios</h2>
-        <p class="txt-center">Elige tus servicios a continuacion</p>
+        <p class="txt-center">Elige tus servicios a continuación</p>
         <div class="listado-servicios" id="servicios"></div>
       </div>
 
@@ -46,16 +46,16 @@
             <input type="text" id="nombre">
           </div>
           <div class="campo" id="campoApellido">
-            <label for="nombre">Apellido</label>
+            <label for="apellido">Apellido</label>
             <input type="text" id="apellido">
           </div>
           <div class="campo" id="campoCorreo">
-            <label for="nombre">Correo</label>
-            <input type="text" id="email">
+            <label for="email">Correo</label>
+            <input type="email" id="email">
           </div>
-          <div class="campo" id="campoTelefono" >
-            <label for="nombre">Telefono</label>
-            <input type="text" id="telefono">
+          <div class="campo" id="campoTelefono">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono">
           </div>
           <div class="campo">
             <label for="fecha">Fecha</label>
@@ -70,19 +70,18 @@
 
       <div class="seccion contenido-resumen" id="paso-3">
         <h2 class="txt-center">Resumen</h2>
-        <p class="txt-center">Verifica que la informacion sea correcta</p>
+        <p class="txt-center">Verifica que la información sea correcta</p>
       </div>
 
       <div class="seccion" id="paso-4">
         <h2 class="txt-center">Mis citas</h2>
-        <p class="txt-center">Aqui puedes ver todas tus citas agendadas en TatianaEstetica</p>
+        <p class="txt-center">Aquí puedes ver todas tus citas agendadas en Tatiana Estética</p>
         <div class="listado-citas"></div>
-
       </div>
 
       <div class="paginacion">
         <button id="anterior" class="boton">&laquo; Anterior</button>
-        <button id="siguiente" class="boton">siguiente &raquo; </button>
+        <button id="siguiente" class="boton">Siguiente &raquo; </button>
       </div>
 
     </div>

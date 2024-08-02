@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function iniciarApp() {
     validarSesion()
+    validarUsuarioUrl()
     mostrarSeccion();
     tabs();
     botonesPaginador();
@@ -127,7 +128,7 @@ async function getServicios() {
 }
 
 function mostrarServicios(servicios) {
-    
+
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
 
@@ -154,8 +155,7 @@ function mostrarServicios(servicios) {
 }
 
 function seleccionarServicio(servicio) {
-    console.log(servicio);
-    
+
     const { id } = servicio;
     const { servicios } = cita;
 
@@ -219,7 +219,7 @@ function mostrarResumen() {
         resumen.removeChild(resumen.firstChild);
     }
 
-    
+
     if (Object.values(cita).includes("") || cita.servicios.length === 0) {
         return mostrarAlerta(
             "Faltan datos o servicios",
@@ -487,7 +487,7 @@ async function crearUsuario() {
     datos.append('token', '');
 
     try {
-        
+
         const respuesta = await fetch(`${api}/usuarios`, { method: 'POST', body: datos });
         const resultado = await respuesta.json();
 
@@ -522,4 +522,16 @@ async function validarUsuario() {
         barra.style.display = "none"
     }
 
+}
+
+function validarUsuarioUrl() {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    const userId = params.get('user');
+    const userName = params.get('name');
+    if (userId && userName) {
+        localStorage.setItem('id', userId)
+        localStorage.setItem('user', userName)
+        paso = 4
+    }
 }

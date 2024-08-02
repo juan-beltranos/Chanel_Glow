@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `citas` (
   PRIMARY KEY (`id`),
   KEY `FK_citas_usuarios` (`usuarioId`),
   CONSTRAINT `FK_citas_usuarios` FOREIGN KEY (`usuarioId`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
 
 CREATE TABLE IF NOT EXISTS `citasservicios` (
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `citasservicios` (
   KEY `FK_citasservicios_citas` (`citaId`),
   KEY `FK_citasservicios_servicios` (`servicioId`),
   CONSTRAINT `FK_citasservicios_servicios` FOREIGN KEY (`servicioId`) REFERENCES `servicios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
 
 CREATE TABLE IF NOT EXISTS `servicios` (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `servicios` (
   `nombre` varchar(60) COLLATE utf16_spanish_ci NOT NULL,
   `precio` decimal(5,3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `confirmado` tinyint(1) DEFAULT '0',
   `token` varchar(15) COLLATE utf16_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
 CREATE TABLE IF NOT EXISTS `planilla` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

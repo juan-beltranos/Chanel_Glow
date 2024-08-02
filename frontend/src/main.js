@@ -1,4 +1,6 @@
 import { api } from "./api/barberAPI.js";
+import { mostrarAlerta } from "./components/Alert.js";
+
 import Swal from 'sweetalert2'
 
 let idUsuario = null
@@ -130,6 +132,7 @@ function iniciarApp() {
     getServicios();
     seleccionarHora()
     seleccionarFecha()
+    reservarCita()
 }
 
 function formatearPrecio(precio) {
@@ -164,8 +167,7 @@ function mostrarServicios(servicios) {
 }
 
 function seleccionarServicio(servicio) {
-    console.log(servicio);
-    
+
     const { id } = servicio;
     const { servicios } = cita;
 
@@ -200,6 +202,7 @@ function seleccionarHora() {
     inputHora.addEventListener("input", function (e) {
         const horaCita = e.target.value;
         const hora = horaCita.split(":")[0];
+
         if (hora < 9 || hora > 18) {
             e.target.value = "";
             mostrarAlerta("hora no valida, cerrado", "error", ".formulario");
@@ -217,4 +220,92 @@ async function getServicios() {
     } catch (error) {
         console.log(error);
     }
+}
+
+async function crearUsuario() {
+
+    const nombre = document.querySelector('#nombre').value
+    const apellido = document.querySelector('#apellido').value
+    const telefono = document.querySelector('#telefono').value
+    const correo = document.querySelector('#email').value
+
+    cita.nombre = nombre
+
+    if (nombre === "" || apellido === "" || telefono === "" || correo === "") return mostrarAlerta('Todos los campos son obligatorios', 'error', '.formulario')
+
+
+    const datos = new FormData();
+
+    datos.append('nombre', nombre);
+    datos.append('apellido', apellido);
+    datos.append('email', correo);
+    datos.append('contraseña', telefono);
+    datos.append('telefono', telefono);
+    datos.append('admin', 0);
+    datos.append('confirmado', 0);
+    datos.append('token', '');
+
+    try {
+
+        const respuesta = await fetch(`${api}/usuarios`, { method: 'POST', body: datos });
+        const resultado = await respuesta.json();
+
+        if (resultado.tipo === 'error') {
+            return console.log('Error creando el usuario');
+        } else {
+            console.log('Usuario creado correctamente');
+            return { id: resultado.usuario_id.id, name: `${nombre} ${apellido}` }
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+async function reservarCita() {
+
+    document.querySelector('#reservarCita').addEventListener('click', async (e) => {
+        e.preventDefault()
+
+        // Crear el usuario
+        const { id, name } = await crearUsuario()
+        idUsuario = id
+
+        // reservar la cita con el usuario creado anteriormente
+
+        const { fecha, hora, servicios } = cita
+
+        const idServicios = servicios.map(servicio => servicio.id)
+
+        const datos = new FormData();
+
+        datos.append("fecha", fecha);
+        datos.append("hora", hora);
+        datos.append("usuarioId", idUsuario);
+        datos.append("servicios", idServicios.toString());
+
+        try {
+            const respuesta = await fetch(`${api}/citas`, { method: "POST", body: datos });
+            const resultado = await respuesta.json();
+
+            if (resultado.respuesta.tipo === 'exito') {
+                Swal.fire(
+                    'Muy bien!',
+                    resultado.respuesta.mensaje,
+                    'success'
+                ).then(() => {
+                    window.location.href = `/pages/citas/citas.html?user=${idUsuario}&name=${name}`
+                })
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Hubo un error al guardar la cita',
+            })
+        }
+
+    })
+
 }
