@@ -1,0 +1,38 @@
+Backend
+
+composer i
+php -S localhost:3000
+
+frontend
+npm i
+npm run dev
+
+
+SCRIPT Publicar en DOM CLOUD
+source: https://github.com/juan-beltranos/Chanel_Glow
+features:
+  - 'php 8.1'
+  - mysql
+  - ssl
+  - 'ssl always'
+root: public_html/backend/public
+nginx:
+  fastcgi: 'on'
+  locations:
+    -
+      match: /
+      try_files: '$uri $uri/ /index.php$is_args$args'
+    -
+      match: '~ \.[^\/]+(?<!\.php)$'
+      try_files: '$uri =404'
+commands:
+  - 'echo "<?php phpinfo(15);" > phpinfo.php'
+  - 'echo "display_errors = On" > .user.ini'
+  - 'echo "display_startup_errors = On" >> .user.ini'
+  - 'echo "DB_HOST=localhost" > includes/.env'
+  - 'echo "DB_USER=${USERNAME}" >> includes/.env'
+  - 'echo "DB_PASS=${PASSWORD}" >> includes/.env'
+  - 'echo "DB_NAME=${DATABASE}" >> includes/.env'
+  - 'echo "" >> includes/.env'
+  - 'echo "SERVER_HOST=https://${DOMAIN}" >> includes/.env'
+  - 'composer install'

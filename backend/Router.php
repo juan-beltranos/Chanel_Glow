@@ -23,36 +23,33 @@ class Router
         // Proteger Rutas...
         session_start();
 
+        $currentUrl = strtok($_SERVER['PATH_INFO'] , '?') ?? '/' ;
+        // $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
 
-        // $currentUrl = strtok($_SERVER['PATH_INFO'] , '?') ?? '/' ;
+        $method = $_SERVER['REQUEST_METHOD'];
 
-        // $method = $_SERVER['REQUEST_METHOD'];
-
-        // if ($method === 'GET') {
-        //     $fn = $this->getRoutes[$currentUrl] ?? null;
-        // } else {
-        //     $fn = $this->postRoutes[$currentUrl] ?? null;
-        // }
-
-
-        // if ($fn) {
-        //     // Call user fn va a llamar una función cuando no sabemos cual sera
-        //     call_user_func($fn, $this); // This es para pasar argumentos
-        // } else {
-        //     echo "Página No Encontrada o Ruta no válida";
-        // }
-
-        $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
-
-        $currentUrl = explode("/", $_SERVER['REQUEST_URI']);
-        $currentUrl = array_filter($currentUrl);
-        if (count($currentUrl) == 0) {
-            $json = array(
-                'status' => 404,
-                'result' => 'Not found'
-            );
+        if ($method === 'GET') {
+            $fn = $this->getRoutes[$currentUrl] ?? null;
+        } else {
+            $fn = $this->postRoutes[$currentUrl] ?? null;
         }
-        echo json_encode($json, http_response_code($json['status']));
+
+        if ($fn) {
+            // Call user fn va a llamar una función cuando no sabemos cual sera
+            call_user_func($fn, $this); // This es para pasar argumentos
+        } else {
+            echo "Página No Encontrada o Ruta no válida";
+        }
+
+        // $currentUrl = explode("/", $_SERVER['REQUEST_URI']);
+        // $currentUrl = array_filter($currentUrl);
+        // if (count($currentUrl) == 0) {
+        //     $json = array(
+        //         'status' => 404,
+        //         'result' => 'Not found'
+        //     );
+        // }
+        // echo json_encode($json, http_response_code($json['status']));
     }
 
     public function render($view, $datos = [])
