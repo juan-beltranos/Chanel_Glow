@@ -9,6 +9,8 @@ let paso = 1;
 let pasoIncial = 1;
 let pasoFinal = 3;
 
+let idUsuario = null
+
 const cita = {
     nombre: "",
     fecha: "",
@@ -36,6 +38,7 @@ function iniciarApp() {
     deshabilitarFechasAnteriores();
     seleccionarHora();
     mostrarResumen();
+    validarUsuario()
     cerrarSesion()
 }
 
@@ -124,6 +127,7 @@ async function getServicios() {
 }
 
 function mostrarServicios(servicios) {
+    
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
 
@@ -150,6 +154,8 @@ function mostrarServicios(servicios) {
 }
 
 function seleccionarServicio(servicio) {
+    console.log(servicio);
+    
     const { id } = servicio;
     const { servicios } = cita;
 
@@ -204,6 +210,8 @@ function formatearPrecio(precio) {
 }
 
 function mostrarResumen() {
+    cita.nombre = document.querySelector('#nombre').value
+
     const resumen = document.querySelector(".contenido-resumen");
 
     // Limpia contenido de resumen
@@ -211,6 +219,7 @@ function mostrarResumen() {
         resumen.removeChild(resumen.firstChild);
     }
 
+    
     if (Object.values(cita).includes("") || cita.servicios.length === 0) {
         return mostrarAlerta(
             "Faltan datos o servicios",
@@ -232,7 +241,7 @@ function mostrarResumen() {
     servicios.forEach((servicio) => {
         const { precio, nombre } = servicio;
 
-        totalPrecio += Number(precio) ;
+        totalPrecio += Number(precio);
 
         const contenedorServicio = document.createElement("DIV");
         contenedorServicio.classList.add("contenedor-servicios");
@@ -287,22 +296,26 @@ function mostrarResumen() {
 
 async function reservarCita() {
 
+
+    // Crear el usuario
+    if (!localStorage.getItem('id')) { idUsuario = await crearUsuario() }
+
+    // reservar la cita con el usuario creado anteriormente
+
     const { fecha, hora, servicios } = cita
 
     const idServicios = servicios.map(servicio => servicio.id)
 
     const datos = new FormData();
 
+
     datos.append("fecha", fecha);
     datos.append("hora", hora);
-    datos.append("usuarioId", localStorage.getItem('id'));
+    datos.append("usuarioId", localStorage.getItem('id') ? localStorage.getItem('id') : idUsuario);
     datos.append("servicios", idServicios.toString());
 
     try {
-        const respuesta = await fetch(`${api}/citas`, {
-            method: "POST",
-            body: datos
-        });
+        const respuesta = await fetch(`${api}/citas`, { method: "POST", body: datos });
         const resultado = await respuesta.json();
 
         if (resultado.respuesta.tipo === 'exito') {
@@ -328,7 +341,7 @@ async function reservarCita() {
 async function getCitasCliente() {
 
     try {
-        const resultado = await fetch(`${api}/citasClientes?id_cliente=${localStorage.getItem('id')}`);
+        const resultado = await fetch(`${api}/citasClientes?id_cliente=${localStorage.getItem('id') ? localStorage.getItem('id') : idUsuario}`);
         const citas = await resultado.json();
         if (citas.length === 0) return mostrarAlerta('No has reservado una cita aun', 'error', '.listado-citas', false)
         mostrarCitas(citas);
@@ -448,5 +461,65 @@ async function cancelarCita(id) {
 
         }
     })
+
+}
+
+async function crearUsuario() {
+
+    const nombre = document.querySelector('#nombre').value
+    const apellido = document.querySelector('#apellido').value
+    const telefono = document.querySelector('#telefono').value
+    const correo = document.querySelector('#email').value
+
+
+    if (nombre === "" || apellido === "" || telefono === "" || correo === "") return mostrarAlerta('Todos los campos son obligatorios', 'error', '.formulario')
+
+
+    const datos = new FormData();
+
+    datos.append('nombre', nombre);
+    datos.append('apellido', apellido);
+    datos.append('email', correo);
+    datos.append('contraseña', telefono);
+    datos.append('telefono', telefono);
+    datos.append('admin', 0);
+    datos.append('confirmado', 0);
+    datos.append('token', '');
+
+    try {
+        
+        const respuesta = await fetch(`${api}/usuarios`, { method: 'POST', body: datos });
+        const resultado = await respuesta.json();
+
+        if (resultado.tipo === 'error') {
+            return console.log('Error creando el usuario');
+        } else {
+            console.log('Usuario creado correctamente');
+            return resultado.usuario_id.id
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+async function validarUsuario() {
+
+    const nombre = document.querySelector('#nombre')
+    const barra = document.querySelector('.barra')
+
+    const apellido = document.querySelector('#campoApellido')
+    const telefono = document.querySelector('#campoTelefono')
+    const correo = document.querySelector('#campoCorreo')
+
+    if (localStorage.getItem('id')) {
+        apellido.style.display = "none"
+        telefono.style.display = "none"
+        correo.style.display = "none"
+        nombre.disabled = true
+    } else {
+        barra.style.display = "none"
+    }
 
 }

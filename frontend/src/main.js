@@ -1,3 +1,15 @@
+import { api } from "./api/barberAPI.js";
+import Swal from 'sweetalert2'
+
+let idUsuario = null
+
+const cita = {
+    nombre: "",
+    fecha: "",
+    hora: "",
+    servicios: [],
+};
+
 (function ($) {
     "use strict";
 
@@ -110,3 +122,99 @@
 
 })(jQuery);
 
+document.addEventListener("DOMContentLoaded", function () {
+    iniciarApp();
+});
+
+function iniciarApp() {
+    getServicios();
+    seleccionarHora()
+    seleccionarFecha()
+}
+
+function formatearPrecio(precio) {
+    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function mostrarServicios(servicios) {
+
+    servicios.forEach((servicio) => {
+        const { id, nombre, precio } = servicio;
+
+        const nombreServicio = document.createElement("P");
+        nombreServicio.classList.add("nombre-servicio");
+        nombreServicio.textContent = nombre;
+
+        const precioServicio = document.createElement("P");
+        precioServicio.classList.add("precio-servicio");
+        precioServicio.textContent = `$${formatearPrecio(precio)}`;
+
+        const servicioDiv = document.createElement("DIV");
+        servicioDiv.classList.add("servicio");
+        servicioDiv.dataset.idServicio = id;
+        servicioDiv.onclick = function () {
+            seleccionarServicio(servicio);
+        };
+
+        servicioDiv.appendChild(nombreServicio);
+        servicioDiv.appendChild(precioServicio);
+
+        document.querySelector("#servicios").appendChild(servicioDiv);
+    });
+}
+
+function seleccionarServicio(servicio) {
+    console.log(servicio);
+    
+    const { id } = servicio;
+    const { servicios } = cita;
+
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
+
+    // Comprobar si un servicio ya fue agregado
+    if (servicios.some((agregado) => agregado.id === id)) {
+        cita.servicios = servicios.filter((agregado) => agregado.id !== id);
+        divServicio.classList.remove("seleccionado");
+    } else {
+        cita.servicios = [...servicios, servicio];
+        divServicio.classList.add("seleccionado");
+    }
+}
+
+function seleccionarFecha() {
+    const inputFecha = document.querySelector("#fecha");
+    inputFecha.addEventListener("input", function (e) {
+        const dia = new Date(e.target.value).getUTCDay();
+
+        if ([0].includes(dia)) {
+            e.target.value = "";
+            mostrarAlerta("Los domingos no abrimos.", "error", ".formulario");
+        } else {
+            cita.fecha = e.target.value;
+        }
+    });
+}
+
+function seleccionarHora() {
+    const inputHora = document.querySelector("#hora");
+    inputHora.addEventListener("input", function (e) {
+        const horaCita = e.target.value;
+        const hora = horaCita.split(":")[0];
+        if (hora < 9 || hora > 18) {
+            e.target.value = "";
+            mostrarAlerta("hora no valida, cerrado", "error", ".formulario");
+        } else {
+            cita.hora = e.target.value;
+        }
+    });
+}
+
+async function getServicios() {
+    try {
+        const resultado = await fetch(`${api}/servicios`);
+        const servicios = await resultado.json();
+        mostrarServicios(servicios);
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -9526,7 +9526,6 @@ h6,
 }
 
 .navbar-light .navbar-nav .nav-link {
-  padding: 30px 15px;
   font-weight: 600;
   letter-spacing: 1px;
   color: #211E1C;
@@ -9702,4 +9701,25 @@ h6,
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+  .listado-servicios {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 10px;
+  }
+  .servicio {
+    background-color: var(--light);
+    color: black;
+    padding: 10px;
+    transition-property: transform;
+    transition-duration: 300ms;
+    text-align: left;
+    margin-bottom: 5px;
+    border: 2px solid var(--primary);
+  }
+
+.servicio.seleccionado {
+    background-color: var(--primary);
+    color:var(--light);
 }

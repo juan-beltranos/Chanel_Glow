@@ -108,7 +108,8 @@ class loginControllers
                     http_response_code(200);
                     $respuesta = [
                         'tipo' => 'exito',
-                        'mensaje' => 'El usuario se registro correctamente'
+                        'mensaje' => 'El usuario se registro correctamente',
+                        'usuario_id' => $resultado,
                     ];
                     echo json_encode($respuesta);
                     return;
