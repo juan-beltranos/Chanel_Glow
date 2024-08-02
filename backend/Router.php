@@ -23,8 +23,8 @@ class Router
         // Proteger Rutas...
         session_start();
 
-        $currentUrl = strtok($_SERVER['PATH_INFO'] , '?') ?? '/' ;
-        // $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
+        // $currentUrl = strtok($_SERVER['PATH_INFO'] , '?') ?? '/' ;
+        $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
 
         $method = $_SERVER['REQUEST_METHOD'];
 
