@@ -1,1 +1,0 @@
-import{a as e}from"./Alert.645a9844.js";function c(){document.querySelector("#cerrar-sesion").addEventListener("click",async()=>{try{const t=await(await fetch(`${e}/logout`)).status;console.log(t),t==200&&(localStorage.clear(),window.location.href="/")}catch(o){console.log(o)}})}export{c};

@@ -81,9 +81,9 @@ function mostrarServicios(servicios) {
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
 
-        const precioFormateado = formatearPrecio(precio);
+        const precioFormateado = precio;
 
-        const contenedorDatos = document.createElement('DIV')
+      const contenedorDatos = document.createElement('DIV')
         contenedorDatos.classList.add('contenedor-datos')
 
         const nombreServicio = document.createElement("P");
@@ -92,7 +92,7 @@ function mostrarServicios(servicios) {
 
         const precioServicio = document.createElement("P");
         precioServicio.classList.add("precio-servicio");
-        precioServicio.textContent = `$${precioFormateado}`;
+        precioServicio.textContent = `$${precio}`;
 
         contenedorDatos.appendChild(nombreServicio)
         contenedorDatos.appendChild(precioServicio)
@@ -143,7 +143,14 @@ function mostrarCitas(citas) {
             if (li) {
                 const totalServicios = document.createElement("P");
                 totalServicios.classList.add("total-servicios");
-                totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+                // Formatear el total de precios
+                const totalPrecioFormateado = totalPrecio.toLocaleString('es-ES', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                totalServicios.innerHTML = `<span>Total a pagar:</span> ${totalPrecioFormateado}`;
 
                 li.appendChild(totalServicios);
                 ul.appendChild(li);
@@ -182,10 +189,10 @@ function mostrarCitas(citas) {
         }
 
         // Añadir servicio actual al <li>
-        totalPrecio += Number(precio); // Sumar el precio al total
+        totalPrecio += parseFloat(precio.replace(/\./g, '')); // Sumar el precio al total
         const servicioTxt = document.createElement('P');
         servicioTxt.classList.add('servicioCita');
-        servicioTxt.textContent = `${servicio} : ${formatearPrecio(precio)}`;
+        servicioTxt.textContent = `${servicio} : ${precio}`;
         li.appendChild(servicioTxt);
     });
 
@@ -193,7 +200,14 @@ function mostrarCitas(citas) {
     if (li) {
         const totalServicios = document.createElement("P");
         totalServicios.classList.add("total-servicios");
-        totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+        // Formatear el total de precios
+        const totalPrecioFormateado = totalPrecio.toLocaleString('es-ES', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+
+        totalServicios.innerHTML = `<span>Total a pagar:</span> ${totalPrecioFormateado}`;
 
         li.appendChild(totalServicios);
 
@@ -211,6 +225,7 @@ async function modalFormulario(tipo, datos) {
 
     if (tipo === 'servicios') {
         const { nombre, precio, id } = datos;
+
         modal.innerHTML = `
             <form class="formulario actualizar-servicio">
                 <h2>Actualizar Servicio</h2>
@@ -220,7 +235,7 @@ async function modalFormulario(tipo, datos) {
                 </div>
                 <div class="campo">
                     <label for="precioServicio">Precio</label>
-                    <input type="number" value="${formatearPrecio(precio)}" id="precioServicioActualizado" placeholder="Precio de tu servicio" />
+                    <input type="text" value="${precio}" id="precioServicioActualizado" placeholder="Precio de tu servicio" />
                 </div>
                 <div class="opciones">
                     <input type="submit" value="Actualizar" class="btn-editar" id="actualizar-servicio" />
@@ -396,10 +411,6 @@ async function getServicios() {
     }
 }
 
-function formatearPrecio(precio) {
-    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
 async function crearServicio() {
 
     const btnCrearServicio = document.querySelector('#crear-servicio')
@@ -408,19 +419,18 @@ async function crearServicio() {
 
         const nombreServicio = document.querySelector('#nombreServicio').value
         const precioServicio = document.querySelector('#precioServicio').value
-        const precioSinPuntos = precioServicio.replace(/\./g, '');
-
         const datos = new FormData();
 
         datos.append("nombre", nombreServicio);
-        datos.append("precio", precioSinPuntos);
+        datos.append("precio", precioServicio);
 
         try {
             const respuesta = await fetch(`${api}/servicios`, {
                 method: "POST",
                 body: datos
             });
-            const resultado = await respuesta.json();
+            
+           const resultado = await respuesta.json();
 
             if (resultado.tipo === 'error') {
                 mostrarAlerta(resultado.msg, 'error', '.formulario')
@@ -473,11 +483,10 @@ async function actualizarServicio(id) {
 
     const nombreServicio = document.querySelector('#nombreServicioActualizado').value
     const precioServicio = document.querySelector('#precioServicioActualizado').value
-    const precioSinPuntos = precioServicio.replace(/\./g, '');
     const datos = new FormData();
 
     datos.append("nombre", nombreServicio);
-    datos.append("precio", precioSinPuntos);
+    datos.append("precio", precioServicio);
 
     try {
         const respuesta = await fetch(`${api}/servicios/actualizar?id=${id}`, {

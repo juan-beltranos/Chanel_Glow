@@ -1,5 +1,6 @@
 import { api } from "./api/barberAPI.js";
 import { mostrarAlerta } from "./components/Alert.js";
+import { formatearPrecio } from "./helpers/moneda.js";
 
 import Swal from 'sweetalert2'
 
@@ -135,14 +136,15 @@ function iniciarApp() {
     reservarCita()
 }
 
-function formatearPrecio(precio) {
-    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
+
 
 function mostrarServicios(servicios) {
 
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
+
+        console.log(precio);
+        
 
         const nombreServicio = document.createElement("P");
         nombreServicio.classList.add("nombre-servicio");

@@ -9741,3 +9741,16 @@ input:-ms-input-placeholder {
 input::-ms-input-placeholder {
   color: white;
 }
+
+/* Alertas */
+.alerta {
+  color: var(--light);
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.alerta.error {
+  background-color: red;
+}

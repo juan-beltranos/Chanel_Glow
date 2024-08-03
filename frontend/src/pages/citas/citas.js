@@ -138,7 +138,7 @@ function mostrarServicios(servicios) {
 
         const precioServicio = document.createElement("P");
         precioServicio.classList.add("precio-servicio");
-        precioServicio.textContent = `$${formatearPrecio(precio)}`;
+        precioServicio.textContent = `$${precio}`;
 
         const servicioDiv = document.createElement("DIV");
         servicioDiv.classList.add("servicio");
@@ -205,10 +205,6 @@ function seleccionarHora() {
     });
 }
 
-function formatearPrecio(precio) {
-    return Number(precio).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
 function mostrarResumen() {
     cita.nombre = document.querySelector('#nombre').value
 
@@ -218,7 +214,6 @@ function mostrarResumen() {
     while (resumen.firstChild) {
         resumen.removeChild(resumen.firstChild);
     }
-
 
     if (Object.values(cita).includes("") || cita.servicios.length === 0) {
         return mostrarAlerta(
@@ -241,7 +236,12 @@ function mostrarResumen() {
     servicios.forEach((servicio) => {
         const { precio, nombre } = servicio;
 
-        totalPrecio += Number(precio);
+        // Eliminar el separador de miles
+        const precioLimpio = precio.replace(/\./g, '');
+        // Convertir a número decimal
+        const precioDecimal = parseFloat(precioLimpio);
+
+        totalPrecio += precioDecimal;
 
         const contenedorServicio = document.createElement("DIV");
         contenedorServicio.classList.add("contenedor-servicios");
@@ -250,7 +250,7 @@ function mostrarResumen() {
         txtServicio.textContent = nombre;
 
         const precioServicio = document.createElement("P");
-        precioServicio.innerHTML = `<span>Precio:</span> ${formatearPrecio(precio)}`;
+        precioServicio.innerHTML = `<span>Precio:</span> ${precio}`;
 
         contenedorServicio.appendChild(txtServicio);
         contenedorServicio.appendChild(precioServicio);
@@ -258,10 +258,16 @@ function mostrarResumen() {
         resumen.appendChild(contenedorServicio);
     });
 
+    // Formatear el total de precios
+    const totalPrecioFormateado = totalPrecio.toLocaleString('es-ES', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+
     // Mostrar el total de los precios
     const totalServicios = document.createElement("P");
     totalServicios.classList.add("total-servicios");
-    totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+    totalServicios.innerHTML = `<span>Total a pagar:</span> ${totalPrecioFormateado}`;
     resumen.appendChild(totalServicios);
 
     // Header de cita resumen
@@ -295,7 +301,6 @@ function mostrarResumen() {
 }
 
 async function reservarCita() {
-
 
     // Crear el usuario
     if (!localStorage.getItem('id')) { idUsuario = await crearUsuario() }
@@ -355,9 +360,10 @@ function mostrarCitas(citas) {
     listadoCitas.innerHTML = '';
 
     let idCita = null;
-    let totalPrecio = 0;
     let ul = null;
     let DivAcciones = null;
+
+    let totalPrecio = 0;
 
     citas.forEach(cita => {
         const { precio, fecha, hora, servicio, id } = cita;
@@ -368,7 +374,14 @@ function mostrarCitas(citas) {
             if (ul) {
                 const totalServicios = document.createElement("P");
                 totalServicios.classList.add("total-servicios");
-                totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+                // Formatear el total de precios
+                const totalPrecioFormateado = totalPrecio.toLocaleString('es-ES', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                totalServicios.innerHTML = `<span>Total a pagar:</span> ${totalPrecioFormateado}`;
 
                 const btnCancelarCita = document.createElement('BUTTON');
                 btnCancelarCita.textContent = 'Cancelar cita';
@@ -405,10 +418,10 @@ function mostrarCitas(citas) {
         }
 
         // Añadir el servicio actual a la lista de servicios
-        totalPrecio += Number(precio); // Sumar el precio al total
+        totalPrecio += parseFloat(precio.replace(/\./g, '')); // Sumar el precio al total
         const servicioTxt = document.createElement('P');
         servicioTxt.classList.add('servicioCita');
-        servicioTxt.textContent = `${servicio} : ${formatearPrecio(precio)}`;
+        servicioTxt.textContent = `${servicio} : ${precio}`;
         DivAcciones.appendChild(servicioTxt);
     });
 
@@ -416,7 +429,14 @@ function mostrarCitas(citas) {
     if (ul) {
         const totalServicios = document.createElement("P");
         totalServicios.classList.add("total-servicios");
-        totalServicios.innerHTML = `<span>Total a pagar:</span> ${formatearPrecio(totalPrecio)}`;
+
+        // Formatear el total de precios
+        const totalPrecioFormateado = totalPrecio.toLocaleString('es-ES', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+
+        totalServicios.innerHTML = `<span>Total a pagar:</span> ${totalPrecioFormateado}`;
 
         const btnCancelarCita = document.createElement('BUTTON');
         btnCancelarCita.textContent = 'Cancelar cita';

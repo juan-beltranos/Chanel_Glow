@@ -10,8 +10,6 @@ $dotenv->safeLoad();
 require 'funciones.php';
 require 'database.php';
 
-
-
 ActiveRecord::setDB($db);
 
 // Headers y CORS

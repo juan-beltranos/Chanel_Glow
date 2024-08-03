@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `citasservicios` (
 CREATE TABLE IF NOT EXISTS `servicios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) COLLATE utf16_spanish_ci NOT NULL,
-  `precio` decimal(5,3) NOT NULL,
+  `precio` decimal(5,4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
