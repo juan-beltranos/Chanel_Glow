@@ -15,9 +15,9 @@ class citaControllers
         echo json_encode($citas);
     }
 
-    public static function getCitasId()
+    public static function getCitasId($id)
     {
-        $cita = Citas::where('id', $_GET['id']);
+        $cita = Citas::where('id', $id);
         if (!$cita) {
             $respuesta = [
                 'tipo' => 'error',
@@ -28,7 +28,6 @@ class citaControllers
         }
         echo json_encode($cita);
     }
-
 
     public static function postCitas()
     {
@@ -92,11 +91,11 @@ class citaControllers
         }
     }
 
-    public static function putCitas()
+    public static function putCitas($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validar la cita exista
-            $cita = Citas::where('id', $_GET['id']);
+            $cita = Citas::where('id', $id);
 
             if (!$cita) {
                 $respuesta = [
@@ -122,12 +121,12 @@ class citaControllers
         }
     }
 
-    public static function deleteCita()
+    public static function deleteCita($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Validar que el servicio exista
-            $servicio = Citas::where('id', $_GET['id']);
+            $servicio = Citas::where('id', $id);
 
             if (!$servicio) {
                 http_response_code(400);

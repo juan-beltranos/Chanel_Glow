@@ -56,12 +56,12 @@ const cita = {
 
 
     // Date and time picker
-    $('#date').datetimepicker({
-        format: 'L'
-    });
-    $('#time').datetimepicker({
-        format: 'LT'
-    });
+    // $('#date').datetimepicker({
+    //     format: 'L'
+    // });
+    // $('#time').datetimepicker({
+    //     format: 'LT'
+    // });
 
 
     // Service carousel
@@ -134,17 +134,13 @@ function iniciarApp() {
     seleccionarHora()
     seleccionarFecha()
     reservarCita()
+    getProductos()
 }
-
-
 
 function mostrarServicios(servicios) {
 
     servicios.forEach((servicio) => {
         const { id, nombre, precio } = servicio;
-
-        console.log(precio);
-        
 
         const nombreServicio = document.createElement("P");
         nombreServicio.classList.add("nombre-servicio");
@@ -310,4 +306,28 @@ async function reservarCita() {
 
     })
 
+}
+
+async function getProductos() {
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "SmrpHhFDyszEDBHihC4ZKXgv0UKTI3ENmMdtfAwNVoQ=");
+    myHeaders.append("x-secret", "ff764d7066adf596297479b1d3e3e5e99eba1a60a7dc6659b030a22e40c22f69f6cc5f76bfbdeca0ce6b8d3233736dc74b1956d6de9f11827de5baeac9e2825c.8afaea0f168c4db7");
+
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
+
+    try {
+        const response = await fetch("https://ms-public-api.rocketfy.com/rocketfy/api/v1/products?limit=20", requestOptions);
+        const result = await response.json();
+        mostrarProductos(result);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function mostrarProductos(products) {
+    console.log(products);
 }

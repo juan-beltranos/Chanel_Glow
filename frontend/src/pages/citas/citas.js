@@ -346,7 +346,7 @@ async function reservarCita() {
 async function getCitasCliente() {
 
     try {
-        const resultado = await fetch(`${api}/citasClientes?id_cliente=${localStorage.getItem('id') ? localStorage.getItem('id') : idUsuario}`);
+        const resultado = await fetch(`${api}/citas/cliente/${localStorage.getItem('id') ? localStorage.getItem('id') : idUsuario}`);
         const citas = await resultado.json();
         if (citas.length === 0) return mostrarAlerta('No has reservado una cita aun', 'error', '.listado-citas', false)
         mostrarCitas(citas);
@@ -461,7 +461,7 @@ async function cancelarCita(id) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const respuesta = await fetch(`${api}/citas/eliminar?id=${id}`, { method: "POST" });
+                const respuesta = await fetch(`${api}/citas/eliminar/${id}`, { method: "POST" });
                 const resultado = await respuesta.json();
                 Swal.fire(
                     'Muy bien!',

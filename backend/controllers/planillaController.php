@@ -13,9 +13,9 @@ class planillaController
         echo json_encode($planillas);
     }
 
-    public static function getPlanillaId()
+    public static function getPlanillaId($id)
     {
-        $planilla = Planilla::where('id', $_GET['id']);
+        $planilla = Planilla::where('id', $id);
 
         // Validar si existe la planilla
         if (!$planilla) {
@@ -73,10 +73,10 @@ class planillaController
         }
     }
 
-    public static function putPlanilla()
+    public static function putPlanilla($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $planilla = Planilla::where('id', $_GET['id']);
+            $planilla = Planilla::where('id', $id);
 
             // Validar que la planilla exista
             if (!$planilla) {
@@ -115,11 +115,11 @@ class planillaController
         }
     }
 
-    public static function deletePlanilla()
+    public static function deletePlanilla($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validar que la planilla exista
-            $planilla = Planilla::where('id', $_GET['id']);
+            $planilla = Planilla::where('id', $id);
 
             // Validar si existe la planilla
             if (!$planilla) {

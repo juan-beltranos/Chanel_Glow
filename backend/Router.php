@@ -1,5 +1,4 @@
 <?php
-
 namespace MVC;
 
 class Router
@@ -19,20 +18,16 @@ class Router
 
     public function comprobarRutas()
     {
-
         // Proteger Rutas...
         session_start();
 
-        // $currentUrl = strtok($_SERVER['PATH_INFO'] , '?') ?? '/' ;
-        $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/api';
-        // $currentUrl = $_SERVER['REQUEST_URI'] === '' ? '/api' : $_SERVER['REQUEST_URI']; // En produccion
-
+        $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {
-            $fn = $this->getRoutes[$currentUrl] ?? null;
+            $fn = $this->matchRoute($currentUrl, $this->getRoutes);
         } else {
-            $fn = $this->postRoutes[$currentUrl] ?? null;
+            $fn = $this->matchRoute($currentUrl, $this->postRoutes);
         }
 
         if ($fn) {
@@ -41,31 +36,40 @@ class Router
         } else {
             echo "Página No Encontrada o Ruta no válida";
         }
-
-        // $currentUrl = explode("/", $_SERVER['REQUEST_URI']);
-        // $currentUrl = array_filter($currentUrl);
-        // if (count($currentUrl) == 0) {
-        //     $json = array(
-        //         'status' => 404,
-        //         'result' => 'Not found'
-        //     );
-        // }
-        // echo json_encode($json, http_response_code($json['status']));
     }
+
+    private function matchRoute($currentUrl, $routes)
+    {
+        foreach ($routes as $url => $fn) {
+            // Convertimos la URL a un regex para que coincida con parámetros
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9\-]+)', $url); // Cambié el regex a incluir guiones
+            $pattern = str_replace('/', '\/', $pattern);
+            $pattern = '/^' . $pattern . '$/';
+
+            if (preg_match($pattern, $currentUrl, $matches)) {
+                array_shift($matches); // Quitamos el primer elemento que es la URL completa
+                return function() use ($fn, $matches) {
+                    call_user_func_array($fn, $matches);
+                };
+            }
+        }
+
+        return null;
+    }
+
 
     public function render($view, $datos = [])
     {
-
-        // Leer lo que le pasamos  a la vista
+        // Leer lo que le pasamos a la vista
         foreach ($datos as $key => $value) {
-            $$key = $value;  // Doble signo de dolar significa: variable variable, básicamente nuestra variable sigue siendo la original, pero al asignarla a otra no la reescribe, mantiene su valor, de esta forma el nombre de la variable se asigna dinamicamente
+            $$key = $value;  // Variable variable
         }
 
         ob_start(); // Almacenamiento en memoria durante un momento...
 
-        // entonces incluimos la vista en el layout
+        // Incluir la vista en el layout
         include_once __DIR__ . "/views/$view.php";
-        $contenido = ob_get_clean(); // Limpia el Buffer
+        $contenido = ob_get_clean(); // Limpiar el buffer
         include_once __DIR__ . '/views/layout.php';
     }
 }

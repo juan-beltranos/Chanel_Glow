@@ -1,10 +1,10 @@
 /* globales */
 
 :root {
-  --primary: #F9A392;
-  --secondary: #FEF1EF;
-  --dark: #211E1C;
-  --light: #FFF;
+  --primary: #f9a392;
+  --secondary: #fef1ef;
+  --dark: #211e1c;
+  --light: #fff;
 }
 
 html {
@@ -54,6 +54,7 @@ img {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  display: none;
 }
 
 /* Alertas */
@@ -82,22 +83,19 @@ img {
 
   .imagen {
     height: auto;
+    display: block;
   }
 }
 
 .app {
   width: 95%;
-  height: 100vh;
   margin: 0 auto;
-  overflow-y: scroll;
 }
-
-
 
 .boton {
   padding: 1rem;
-  background-color: var(--primary);
-  color: var(--secondary);
+  background-color: var(--primary) !important;
+  color: white !important;
   font-weight: bold;
   font-size: 15px;
   text-align: center;
@@ -123,12 +121,11 @@ img {
 .campo {
   display: flex;
   margin-bottom: 1rem;
-  gap:1rem;
+  gap: 1rem;
 }
 
 .campo label {
   flex: 0 0 5rem;
-
 }
 
 .campo input {
@@ -139,7 +136,7 @@ img {
   border-radius: 2rem;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .campo {
     align-items: center;
   }
@@ -149,11 +146,10 @@ img {
   }
 }
 
-
 /* Formulario citas */
 .campo input:disabled {
   background-color: var(--primary);
-  color: var(--secondary);
+  color: white;
   cursor: not-allowed;
 }
 
@@ -169,10 +165,9 @@ img {
   display: none;
 }
 
-
 /* Tabs */
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .tabs {
     display: flex;
   }
@@ -181,7 +176,7 @@ img {
 .tabs button {
   background-color: var(--primary);
   border: none;
-  color: var(--secondary);
+  color: white;
   padding: 1rem;
   display: block;
   width: 100%;
@@ -196,7 +191,7 @@ img {
 }
 
 .tabs .actual {
-  background-color: var(--secondary);
+  background-color: white;
   color: var(--primary);
   border: 2px solid gainsboro;
 }
@@ -246,11 +241,10 @@ img {
 }
 
 .servicio.seleccionado p {
-  color: var(--secondary);
+  color: white;
 }
 
-@media(min-width: 768px) {
-
+@media (min-width: 768px) {
   .servicio {
     background-color: var(--secondary);
     color: black;
@@ -267,7 +261,6 @@ img {
     grid-template-columns: 2fr 2fr;
     gap: 10px;
   }
-
 }
 
 /* Resumen Cita */
@@ -297,7 +290,7 @@ img {
   margin: 0;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .barra {
     display: flex;
     justify-content: space-between;
@@ -305,20 +298,14 @@ img {
   }
 }
 
-
 /* Citas admin */
 .listado-citas {
- 
 }
 
 .citas {
   list-style: none;
   padding: 1rem;
-  border :2px solid gainsboro;
-}
-
-.citas li {
-  border-top: 1px solid var(--secondary);
+  border: 2px solid gainsboro;
 }
 
 .citas p {
@@ -329,7 +316,6 @@ img {
 .citas span {
   font-weight: 400;
   color: black;
-
 }
 
 .servicioCita {
@@ -347,7 +333,7 @@ img {
   border-bottom: 1px solid gainsboro;
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .contenedor-datos {
     display: flex;
   }
@@ -357,7 +343,6 @@ img {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 0px;
-
   }
 }
 
@@ -367,8 +352,8 @@ img {
 
 .btn-editar {
   padding: 0.5rem;
-  background-color: var(--dark);
-  color: var(--secondary);
+  background-color: #ff9800;
+  color: white;
   font-weight: bold;
   text-transform: uppercase;
   border: none;
@@ -380,18 +365,16 @@ img {
 
 .btn-eliminar {
   padding: 0.5rem;
-  background-color: var(--primary);
-  color: var(--secondary);
+  background-color: #f44336;
+  color: white;
   font-weight: bold;
   text-transform: uppercase;
   border: none;
-
 }
 
 .btn-eliminar:hover {
   cursor: pointer;
 }
-
 
 /* Modal */
 .modal {
@@ -423,7 +406,7 @@ img {
   color: var(--secondary);
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .modal .actualizar-servicio {
     max-width: 50%;
   }
@@ -438,3 +421,71 @@ img {
   flex-direction: column;
 }
 
+/*  ---------Prodcutos ------- */
+
+.productos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 10px 10px 30px 10px;
+}
+
+.card-title {
+  font-size: 1rem;
+  margin: 0;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.card-description {
+  color: #666;
+  font-size: 0.9em;
+  margin: 10px 0;
+}
+
+.card-price {
+  font-size: 1.1em;
+  color: #333;
+}
+
+.card-button {
+  background-color: #f9a392;
+  margin-top: 1rem;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: white;
+  font-weight: bold;
+}
+
+.card-button:hover {
+  background-color: none;
+}

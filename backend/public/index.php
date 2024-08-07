@@ -19,28 +19,28 @@ $router->post('/api/logout', [loginControllers::class, 'logout']);
 
 // Servicios
 $router->get('/api/servicios', [serviciosControllers::class, 'getServicios']);
-$router->get('/api/serviciosId', [serviciosControllers::class, 'getServiciosId']);
+$router->get('/api/serviciosId/{id}', [serviciosControllers::class, 'getServiciosId']);
 $router->post('/api/servicios', [serviciosControllers::class, 'postServicio']);
-$router->post('/api/servicios/actualizar', [serviciosControllers::class, 'putServicio']);
-$router->post('/api/servicios/eliminar', [serviciosControllers::class, 'deleteServicio']);
+$router->post('/api/servicios/actualizar/{id}', [serviciosControllers::class, 'putServicio']);
+$router->post('/api/servicios/eliminar/{id}', [serviciosControllers::class, 'deleteServicio']);
 
 // Citas
 $router->get('/api/citas', [citaControllers::class, 'getCitas']);
-$router->get('/api/citasId', [citaControllers::class, 'getCitasId']);
+$router->get('/api/citasId/{id}', [citaControllers::class, 'getCitasId']);
 $router->post('/api/citas', [citaControllers::class, 'postCitas']);
-$router->post('/api/citas/actualizar', [citaControllers::class, 'putCitas']);
-$router->post('/api/citas/eliminar', [citaControllers::class, 'deleteCita']);
+$router->post('/api/citas/actualizar/{id}', [citaControllers::class, 'putCitas']);
+$router->post('/api/citas/eliminar/{id}', [citaControllers::class, 'deleteCita']);
 
 // Planillas
 $router->get('/api/planillas', [planillaController::class, 'getPlanillas']);
-$router->get('/api/planillaId', [planillaController::class, 'getPlanillaId']);
+$router->get('/api/planillaId/{id}', [planillaController::class, 'getPlanillaId']);
 $router->post('/api/planilla', [planillaController::class, 'postPlanilla']);
-$router->post('/api/planilla/actualizar', [planillaController::class, 'putPlanilla']);
-$router->post('/api/planilla/eliminar', [planillaController::class, 'deletePlanilla']);
+$router->post('/api/planilla/actualizar/{id}', [planillaController::class, 'putPlanilla']);
+$router->post('/api/planilla/eliminar/{id}', [planillaController::class, 'deletePlanilla']);
 
 // Admin
-$router->get('/api/citasClientesAll', [adminController::class, 'index']);
-$router->get('/api/citasClientes', [adminController::class, 'citaClienteId']);
+$router->get('/api/citas/filtro/{fecha}', [adminController::class, 'index']);
+$router->get('/api/citas/cliente/{id}', [adminController::class, 'citaClienteId']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

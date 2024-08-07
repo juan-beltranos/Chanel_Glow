@@ -13,9 +13,10 @@ class serviciosControllers
         echo json_encode($servicios);
     }
 
-    public static function getServiciosId()
+    public static function getServiciosId($id)
     {
-        $servicio = Servicio::where('id', $_GET['id']);
+
+        $servicio = Servicio::where('id', $id);
 
         // Validar si existe el servicio
         if (!$servicio) {
@@ -34,7 +35,6 @@ class serviciosControllers
     {
         $servicio = new Servicio;
 
-   
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $servicio->sincronizar($_POST);
@@ -61,11 +61,11 @@ class serviciosControllers
         }
     }
 
-    public static function putServicio()
+    public static function putServicio($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $servicio = Servicio::where('id', $_GET['id']);
+            $servicio = Servicio::where('id', $id);
          
 
             // Validar que el servicio exista
@@ -77,8 +77,6 @@ class serviciosControllers
                 echo json_encode($respuesta);
                 return;
             }
-
-          
 
             $servicioPut = new Servicio($_POST);
             $servicioPut->id = $servicio->id;
@@ -95,12 +93,12 @@ class serviciosControllers
         }
     }
 
-    public static function deleteServicio()
+    public static function deleteServicio($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Validar que el servicio exista
-            $servicio = Servicio::where('id', $_GET['id']);
+            $servicio = Servicio::where('id', $id);
 
             // Validar si existe el servicio
             if (!$servicio) {

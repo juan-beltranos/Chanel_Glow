@@ -63,7 +63,7 @@ function getCitas() {
     fechaCita.addEventListener('input', async function (e) {
         const fecha = e.target.value;
         try {
-            const resultado = await fetch(`${api}/citasClientesAll?fecha=${fecha}`);
+            const resultado = await fetch(`${api}/citas/filtro/${fecha}`); 
             const citas = await resultado.json();
             if (citas.length === 0) {
                 listadoCitas.innerHTML = ''
@@ -458,7 +458,7 @@ async function crearServicio() {
 async function eliminarServicio(servicioId) {
 
     try {
-        const respuesta = await fetch(`${api}/servicios/eliminar?id=${servicioId}`, { method: "POST" });
+        const respuesta = await fetch(`${api}/servicios/eliminar/${servicioId}`, { method: "POST" });
         const resultado = await respuesta.json();
 
         if (resultado.tipo === 'exito') {
@@ -489,7 +489,7 @@ async function actualizarServicio(id) {
     datos.append("precio", precioServicio);
 
     try {
-        const respuesta = await fetch(`${api}/servicios/actualizar?id=${id}`, {
+        const respuesta = await fetch(`${api}/servicios/actualizar/${id}`, {
             method: "POST",
             body: datos
         });
