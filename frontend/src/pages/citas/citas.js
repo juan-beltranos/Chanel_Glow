@@ -324,6 +324,8 @@ async function reservarCita() {
         const resultado = await respuesta.json();
 
         if (resultado.respuesta.tipo === 'exito') {
+            // TODO : Enviar correo al administrador
+            // TODO : Enviar correo al cliente
             Swal.fire(
                 'Muy bien!',
                 resultado.respuesta.mensaje,
